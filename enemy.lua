@@ -4,6 +4,7 @@ Enemy = Entity:new {
 	sightRange = 6 * TILE_SIZE,
 	aiState = "wander",
 	input = Entity.getDefaultInput(),
+	MAX_WALK_SPEED = 1,
 	wanderState = {
 		time = 0,
 	},
