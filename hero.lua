@@ -28,15 +28,19 @@ function Hero:updateBB()
 end
 
 
-ACCEL_FLOOR = 0.25
-ACCEL_AIR   = 0.175
+-- global constants
+GRAVITY           = 0.2
+MAX_SPEED_X       = 4
+MAX_SPEED_Y       = 4
 
-MAX_SPEED_X = 4
-MAX_SPEED_Y = 4
 
-MAX_WALK_SPEED = 2
+-- hero specific constants
+ACCEL_FLOOR       = 0.25
+ACCEL_AIR         = 0.175
+MAX_WALK_SPEED    = 2
+JUMP_START_SPEED  = 4
+JUMP_CUTOFF_SPEED = 1
 
-GRAVITY = 0.2
 
 
 function Hero:update()
@@ -100,13 +104,12 @@ function Hero:update()
 
 
 
-
 	if self.state == "floor" then
 
 		-- jump
 		if jump and not self.jump and iy ~= 1 then
 			self.state = "air"
-			self.vy = -4
+			self.vy = -JUMP_START_SPEED
 			self.jump_control = true
 		end
 
@@ -114,8 +117,8 @@ function Hero:update()
 
 		-- control jump height
 		if self.jump_control then
-			if not jump and self.vy < -1 then
-				self.vy = -1
+			if not jump and self.vy < -JUMP_CUTOFF_SPEED then
+				self.vy = -JUMP_CUTOFF_SPEED
 				self.jump_control = false
 			elseif self.vy > -1 then
 				self.jump_control = false
