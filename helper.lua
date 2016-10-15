@@ -53,13 +53,13 @@ end
 local function defaultFilterPredicate(item)
 	return not item.alive
 end
-function updateList(x, predicate)
-	predicate = predicate or defaultFilterPredicate
+function updateList(x, removalPredicate)
+	removalPredicate = removalPredicate or defaultFilterPredicate
 	local i = 1
 	for j, b in ipairs(x) do
 		x[j] = nil
 		b:update()
-		if not predicate(b) then
+		if not removalPredicate(b) then
 			x[i] = b
 			i = i + 1
 		end

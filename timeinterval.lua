@@ -3,9 +3,6 @@ local function timerPredicate(timer)
 	return timer.destroyed
 end
 function updateTimers()
-	for _, i in ipairs(timers) do
-		i:update()
-	end
 	updateList(timers, timerPredicate)
 end
 

@@ -89,16 +89,6 @@ function love.update()
 	-- move stuff around
 	hero:update()
 	camera:update()
-	for _, e in ipairs(enemies) do
-		e:update()
-	end
-	for _, p in ipairs(projectiles) do
-		p:update()
-		local target, axis, offset = map:firstCollisionWithBox(p, enemies)
-		if axis == "x" and p.onCollide then
-			p:onCollide(axis, offset, target)
-		end
-	end
 
 	for _, list in ipairs({enemies, projectiles}) do
 		updateList(list)

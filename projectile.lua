@@ -15,6 +15,14 @@ function Projectile:init(entity, damage)
 	self.damageValue = damage
 end
 
+function Projectile:update()
+	Entity.update(self)
+	local target, axis, offset = map:firstCollisionWithBox(self:updateBB(), enemies)
+	if axis == "x" then
+		self:onCollide(axis, offset, target)
+	end
+end
+
 function Projectile:onCollide(axis, direction, target)
 	if axis == "x" and not target or not target.isHero then -- TODO check for correct target
 		self.alive = false
