@@ -1,9 +1,5 @@
-require "helper"
+require "entity"
 
-Enemy = new Object()
-function Enemy:init(x, y)
-	self.x = x
-	self.y = y
-end
+Enemy = Entity.new()
 
 Voter = new Enemy()
