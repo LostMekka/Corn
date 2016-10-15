@@ -18,6 +18,8 @@ function Map:init(filename)
 	self.h = data.height
 
 
+	self.objects = {}
+
 	self.rooms = {}
 
 	for i, layer in ipairs(data.layers) do
@@ -40,8 +42,9 @@ function Map:init(filename)
 
 				for j, obj in ipairs(layer.objects) do
 					if obj.name == "player" then
-						guy.x = obj.x + obj.width / 2
-						guy.y = obj.y + obj.height / 2
+						self.objects.player = {
+							x = obj.x + obj.width / 2,
+							y = obj.y + obj.height / 2 }
 					end
 				end
 			end

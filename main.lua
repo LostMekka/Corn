@@ -4,8 +4,8 @@ local D = love.keyboard.isDown
 
 
 -- init technical stuff
-W = 640
-H = 400
+W = 400
+H = 240
 G.setDefaultFilter("nearest", "nearest")
 canvas = G.newCanvas(W, H)
 love.window.setMode(W, H, {fullscreen = true})
@@ -16,29 +16,33 @@ love.mouse.setVisible(false)
 -- require stuff
 require "helper"
 require "map"
+require "hero"
 
 
 
 
 Camera = Object:new()
-function Camera:init()
-	self.x = 100
-	self.y = 100
+function Camera:init(x, y)
+	self.x = x
+	self.y = y
 end
 
 
 
 -- instantiate stuff
 map = Map("media/map-01.json")
-camera = Camera()
+hero = Hero(map.objects.player.x, map.objects.player.y)
+camera = Camera(map.objects.player.x, map.objects.player.y)
 
 
 
 
 function love.update()
 	-- move stuff around
-	camera.x = camera.x + (bool[D"right"] - bool[D"left"]) * 10
-	camera.y = camera.y + (bool[D"down"] - bool[D"up"]) * 10
+	camera.x = camera.x + (bool[D"right"] - bool[D"left"]) * 4
+	camera.y = camera.y + (bool[D"down"]  - bool[D"up"]) * 4
+
+	hero.update()
 
 	-- update entities
 	local time = love.timer.getAverageDelta()
@@ -56,16 +60,15 @@ function love.draw()
 	-- render your stuff here
 
 
+	hero:draw()
 
-	-- render map
+
 	map:draw({
 		x = camera.x - W / 2,
 		y = camera.y - H / 2,
 		w = W,
 		h = H,
 	})
-
-
 
 
 
