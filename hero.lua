@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 local G = love.graphics
 local D = love.keyboard.isDown
 
