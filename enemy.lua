@@ -14,8 +14,12 @@ function Enemy:init(x, y)
 end
 function Enemy:update()
 	if self.aiState == "wander" then
-		if self.wanderState.time == 0 then
+		local cliff = not self:canWalkForward()
+		if self.wanderState.time == 0 or cliff then
 			self.input.moveX = love.math.random(3) - 2
+			if cliff and self.input.moveX == self.dir then
+				self.input.moveX = self.input.moveX * -1
+			end
 			self.wanderState.time = love.math.random(60) + 10
 		end
 		self.wanderState.time = self.wanderState.time - 1

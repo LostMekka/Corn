@@ -43,12 +43,12 @@ end
 function Entity:canWalkForward(distance)
 	distance = distance or TILE_SIZE
 	local box = {
-		x = self.x + self.dir * distance,
-		y = self.y + 2,
-		w = self.w,
-		h = self.h,
+		x = self.box.x + self.dir * distance,
+		y = self.box.y + 2,
+		w = self.box.w,
+		h = self.box.h,
 	}
-	return map.collision(box, "y") == 0
+	return map:collision(box, "y") ~= 0
 end
 
 
