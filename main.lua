@@ -7,7 +7,7 @@ W = 400
 H = 240
 G.setDefaultFilter("nearest", "nearest")
 canvas = G.newCanvas(W, H)
-love.window.setMode(W, H, {fullscreen = true})
+love.window.setMode(W, H, {resizable = true})
 love.mouse.setVisible(false)
 
 
@@ -44,9 +44,6 @@ function love.update()
 --	camera.y = camera.y + (bool[D"down"]  - bool[D"up"]) * 4
 	camera.x = hero.x
 	camera.y = hero.y
-
-	-- update entities
-	local time = love.timer.getAverageDelta()
 end
 
 
@@ -71,8 +68,17 @@ function love.draw()
 	end
 
 	-- draw canvas independent of resolution
+	local w = G.getWidth()
+	local h = G.getHeight()
 	G.origin()
-	G.scale(G.getWidth() / W, G.getHeight() / H)
+	if w / h < W / H then
+		G.translate(0, (h - w / W * H) * 0.5)
+		G.scale(w / W, w / W)
+	else
+		G.translate((w - h / H * W) * 0.5, 0)
+		G.scale(h / H, h / H)
+	end
+
 	G.setCanvas()
 	G.draw(canvas)
 end
