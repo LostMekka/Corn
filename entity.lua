@@ -16,6 +16,8 @@ Entity = Object:new {
 
 
 function Entity:initResources()
+	self.life = 100
+	self.alive = true
 	-- load image and quads
 	if not self.img and self.name then
 		self.img = G.newImage("media/" .. self.name .. ".png")
@@ -24,6 +26,11 @@ function Entity:initResources()
 			self.img:getHeight(),
 			self.img:getHeight())
 	end
+end
+
+function Entity:damage(damageValue)
+	self.life = self.live - damageValue
+	self.alive = self.life > 0
 end
 
 
