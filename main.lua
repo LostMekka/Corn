@@ -9,7 +9,7 @@ W = 400
 H = 240
 G.setDefaultFilter("nearest", "nearest")
 canvas = G.newCanvas(W, H)
-love.window.setMode(W, H, {resizable = true})
+love.window.setMode(W * 2, H * 2, {resizable = true})
 love.mouse.setVisible(false)
 paused = false
 
