@@ -81,7 +81,7 @@ function Map:collision(box, axis)
 
 				b.x = x * TILE_SIZE
 				b.y = y * TILE_SIZE
-
+--[[
 --				if cell == 1 and dy ~= "cliff" then
 --
 --					if axis == "y" and dy then
@@ -98,6 +98,7 @@ function Map:collision(box, axis)
 --
 --				else
 --
+]]
 					local e = collision(box, b, axis)
 					if math.abs(e) > math.abs(d) then d = e end
 
@@ -134,25 +135,13 @@ function Map:collision(box, axis)
 	return d
 end
 
-function Map:entityCollisionAny(entity, targetList, axis)
-	local offset
-	for _, target in ipairs(targetList) do
-		offset = collision(entity:updateBB(), target:updateBB(), axis)
-		if offset ~= 0 and entity.onCollide then
-			entity:onCollide(axis, offset, target)
-		end
-	end
-end
-
 function Map:firstCollisionWithBox(box, targetList)
-	local offsetX
-	local offsetY
 	for _, target in ipairs(targetList) do
 		local targetBox = target:updateBB()
-		local offsetX = collision(box, targetBox, "x")
-		local offsetY = collision(box, targetBox, "y")
-		if offsetX ~= 0 or offsetY ~= 0 then
-			return target
+		if collision(box, targetBox, "x") ~= 0 then
+			return target, "x", offsetX
+		elseif collision(box, targetBox, "y") ~= 0 then
+			return target, "y", offsetY
 		end
 	end
 end

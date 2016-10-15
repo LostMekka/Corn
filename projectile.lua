@@ -6,18 +6,22 @@ Projectile = Entity:new {
 	MAX_WALK_SPEED    = 4,
 	JUMP_START_SPEED  = 0,
 	JUMP_CUTOFF_SPEED = 0,
-	IGNORES_GRAVITY   = true,
+	GRAVITY_FACTOR    = 0.025,
 }
 
-function Projectile:init(entity)
+function Projectile:init(entity, damage)
 	self:super(entity.x + (entity.w / 2 - self.w / 2) * entity.dir, entity.y)
 	self.vx = 4 * entity.dir
+	self.damageValue = damage
 end
 
 function Projectile:onCollide(axis, direction, target)
---	if target.name == "hero" then
-		self.dead = true
---	end
+	if axis == "x" and not target or not target.isHero then -- TODO check for correct target
+		self.alive = false
+		if target then
+			target:damage(self.damageValue)
+		end
+	end
 end
 
 function Projectile:draw()

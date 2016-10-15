@@ -94,7 +94,10 @@ function love.update()
 	end
 	for _, p in ipairs(projectiles) do
 		p:update()
-		map:entityCollisionAny(p, enemies, "x")
+		local target, axis, offset = map:firstCollisionWithBox(p, enemies)
+		if axis == "x" and p.onCollide then
+			p:onCollide(axis, offset, target)
+		end
 	end
 
 	for _, list in ipairs({enemies, projectiles}) do
@@ -158,7 +161,7 @@ function love.keypressed(key)
 	elseif key == "p" then
 		paused = not paused
 	elseif key == "s" then
-		table.insert(projectiles, Projectile(hero))
+		table.insert(projectiles, Projectile(hero, 10))
 	elseif key == "f11" then
 		DEBUG = not DEBUG
 	end

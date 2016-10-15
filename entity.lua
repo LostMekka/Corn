@@ -11,6 +11,7 @@ Entity = Object:new {
 	MAX_WALK_SPEED = 2,
 	JUMP_START_SPEED = 4,
 	JUMP_CUTOFF_SPEED = 1,
+	GRAVITY_FACTOR = 1,
 	IGNORES_GRAVITY   = false,
 }
 
@@ -29,7 +30,7 @@ function Entity:initResources()
 end
 
 function Entity:damage(damageValue)
-	self.life = self.live - damageValue
+	self.life = self.life - damageValue
 	self.alive = self.life > 0
 end
 
@@ -112,9 +113,6 @@ function Entity:move(input)
 	-- vertical collision
 	local dx = map:collision(self:updateBB(), "x")
 	if dx ~= 0 then
-		if self.onCollide then
-			self:onCollide("x")
-		end
 		self.x = self.x + dx
 		self.vx = 0
 	end
@@ -125,7 +123,7 @@ function Entity:move(input)
 	if self.movementState == "air" or self.movementState == "floor" then
 
 		-- self.GRAVITY
-		self.vy = self.vy + (self.IGNORES_GRAVITY and 0 or self.GRAVITY)
+		self.vy = self.vy + (self.IGNORES_GRAVITY and 0 or self.GRAVITY * self.GRAVITY_FACTOR)
 		local vy = math.min(self.MAX_SPEED_Y, math.max(-self.MAX_SPEED_Y, self.vy))
 		self.y = self.y + vy
 	end
@@ -145,6 +143,10 @@ function Entity:move(input)
 		self.movementState = "air"
 	elseif floor then
 		self.movementState = "floor"
+	end
+
+	if (dx ~= 0 or dy ~= 0) and self.onCollide then
+		self:onCollide("x")
 	end
 
 
