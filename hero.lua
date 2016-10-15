@@ -16,7 +16,7 @@ end
 
 function Hero:getInput()
 	return {
-		ix = bool[D"right"] - bool[D"left"],
+		moveX = bool[D"right"] - bool[D"left"],
 		jump = D"x"
 	}
 end
