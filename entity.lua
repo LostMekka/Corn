@@ -38,6 +38,19 @@ function Entity:init(x, y)
 	self:updateBB()
 end
 
+
+function Entity:canWalkForward(distance)
+	distance = distance or TILE_SIZE
+	local box = {
+		x = self.x + self.dir * distance,
+		y = self.y + 2,
+		w = self.w,
+		h = self.h,
+	}
+	return map.collision(box, "y") == 0
+end
+
+
 function Entity:update()
 	local input = self:getInput()
 	self:move(input)
