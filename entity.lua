@@ -63,13 +63,13 @@ function Entity:move(input)
 
 	local dir = self.dir
 
-	if  self.movementState == "floor" then
+	if self.movementState == "floor" then
 		self.vx = math.max(
 			self.vx - self.ACCEL_FLOOR,
 			math.min(self.vx + self.ACCEL_FLOOR, input.ix * self.MAX_WALK_SPEED)
 		)
 
-	elseif  self.movementState == "air" then
+	elseif self.movementState == "air" then
 		local m = math.max(self.MAX_WALK_SPEED, math.abs(self.vx))
 		self.vx = math.max(-m, math.min(m, self.vx + input.ix * self.ACCEL_AIR))
 	end
@@ -92,7 +92,7 @@ function Entity:move(input)
 
 	local oy = self.y
 
-	if  self.movementState == "air" or  self.movementState == "floor" then
+	if self.movementState == "air" or  self.movementState == "floor" then
 
 		-- self.GRAVITY
 		self.vy = self.vy + self.GRAVITY
@@ -119,7 +119,7 @@ function Entity:move(input)
 	end
 
 
-	if  self.movementState == "floor" then
+	if self.movementState == "floor" then
 
 		-- jump
 		if input.jump and not self.jump and iy ~= 1 then
@@ -128,7 +128,7 @@ function Entity:move(input)
 			self.jump_control = true
 		end
 
-	elseif  self.movementState == "air" then
+	elseif self.movementState == "air" then
 
 		-- control jump height
 		if self.jump_control then
@@ -165,8 +165,13 @@ function Entity:move(input)
 end
 
 function Entity:draw()
-	G.rectangle("line",
-		self.x - self.w / 2,
-		self.y - self.h / 2,
-		self.w, self.h)
+	if self.img then
+		local s = self.img:getHeight()
+		G.draw(self.img, self.quads[1], self.x, self.y, 0, self.dir, 1, s / 2, s / 2)
+	else
+		G.rectangle("line",
+			self.x - self.w / 2,
+			self.y - self.h / 2,
+			self.w, self.h)
+	end
 end
