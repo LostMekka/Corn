@@ -10,6 +10,6 @@ function TimeInterval:isAtStart()
 end
 
 function TimeInterval:update()
-	self.currentTime = (self.currentTime >= duration) and 0 or (self.currentTime + 1)
+	self.currentTime = (self.currentTime >= self.duration) and 0 or (self.currentTime + 1)
 	return self.currentTime == 0
 end
