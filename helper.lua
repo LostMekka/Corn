@@ -50,13 +50,16 @@ function collision(a, b, axis)
 	end
 end
 
-
-function updateList(x)
+local function defaultFilterPredicate(item)
+	return item.dead
+end
+function updateList(x, predicate)
+	predicate = predicate or defaultFilterPredicate
 	local i = 1
 	for j, b in ipairs(x) do
 		x[j] = nil
 		b:update()
-		if not b.dead then
+		if not predicate(b) then
 			x[i] = b
 			i = i + 1
 		end
