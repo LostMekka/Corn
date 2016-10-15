@@ -1,4 +1,4 @@
---DEBUG = true
+DEBUG = false
 
 
 G = love.graphics
@@ -78,7 +78,6 @@ map = Map("media/map-01.json")
 hero = map.objects.player
 camera = Camera(map.objects.player.x, map.objects.player.y)
 
-
 function love.update()
 	if paused then
 		return
@@ -114,6 +113,13 @@ function love.draw()
 		e:draw()
 	end
 
+	if DEBUG then
+		G.origin()
+		love.graphics.print('FPS: ' .. love.timer.getFPS(), 0, 0)
+		love.graphics.print('Enemies: ' .. #map.objects.enemies, 0, 15)
+	end
+
+
 	-- draw canvas independent of resolution
 	local w = G.getWidth()
 	local h = G.getHeight()
@@ -125,7 +131,6 @@ function love.draw()
 		G.translate((w - h / H * W) * 0.5, 0)
 		G.scale(h / H, h / H)
 	end
-
 	G.setCanvas()
 	G.draw(canvas)
 end
@@ -136,5 +141,7 @@ function love.keypressed(key)
 		love.event.quit()
 	elseif key == "p" then
 		paused = not paused
+	elseif key == "f11" then
+		DEBUG = not DEBUG
 	end
 end
