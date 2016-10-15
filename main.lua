@@ -13,10 +13,10 @@ love.mouse.setVisible(false)
 
 -- require stuff
 require "helper"
+require "map"
 require "entity"
 require "enemy"
 require "hero"
-require "map"
 
 
 Camera = Object:new()

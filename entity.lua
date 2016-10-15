@@ -19,7 +19,7 @@ function Entity:init(x, y)
 	self.vx = 0
 	self.vy = 0
 	self.dir = 1
-	self.state = "air"
+	self.movementState = "air"
 	self.box = {}
 	self:updateBB()
 end
@@ -49,13 +49,13 @@ function Entity:move(input)
 
 	local dir = self.dir
 
-	if self.state == "floor" then
+	if  self.movementState == "floor" then
 		self.vx = math.max(
 			self.vx - self.ACCEL_FLOOR,
 			math.min(self.vx + self.ACCEL_FLOOR, input.ix * self.MAX_WALK_SPEED)
 		)
 
-	elseif self.state == "air" then
+	elseif  self.movementState == "air" then
 		local m = math.max(self.MAX_WALK_SPEED, math.abs(self.vx))
 		self.vx = math.max(-m, math.min(m, self.vx + input.ix * self.ACCEL_AIR))
 	end
@@ -78,7 +78,7 @@ function Entity:move(input)
 
 	local oy = self.y
 
-	if self.state == "air" or self.state == "floor" then
+	if  self.movementState == "air" or  self.movementState == "floor" then
 
 		-- self.GRAVITY
 		self.vy = self.vy + self.GRAVITY
@@ -98,23 +98,23 @@ function Entity:move(input)
 			floor = true
 		end
 	end
-	if not floor and self.state == "floor" then
-		self.state = "air"
+	if not floor and  self.movementState == "floor" then
+		 self.movementState = "air"
 	elseif floor then
-		self.state = "floor"
+		 self.movementState = "floor"
 	end
 
 
-	if self.state == "floor" then
+	if  self.movementState == "floor" then
 
 		-- jump
 		if input.jump and not self.jump and iy ~= 1 then
-			self.state = "air"
+			 self.movementState = "air"
 			self.vy = -self.JUMP_START_SPEED
 			self.jump_control = true
 		end
 
-	elseif self.state == "air" then
+	elseif  self.movementState == "air" then
 
 		-- control jump height
 		if self.jump_control then
@@ -133,7 +133,7 @@ function Entity:move(input)
 	self.dir = dir
 
 	-- animations
-	--	if self.state == "floor" then
+	--	if  self.movementState == "floor" then
 	--		if ix == 0 then
 	--			self.tick = 0
 	--			self.anim = self.anims.idle
