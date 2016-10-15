@@ -213,5 +213,5 @@ function Entity:action_meleeAttack(box, damage)
 end
 
 function Entity:action_shoot()
-
+	table.insert(projectiles, Projectile(self))
 end
