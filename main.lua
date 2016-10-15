@@ -8,7 +8,7 @@ W = 400
 H = 240
 G.setDefaultFilter("nearest", "nearest")
 canvas = G.newCanvas(W, H)
-love.window.setMode(W, H, {fullscreen = true})
+love.window.setMode(W, H, {resizable = true})
 love.mouse.setVisible(false)
 
 
@@ -64,9 +64,6 @@ function love.draw()
 	-- render your stuff here
 
 
-	hero:draw()
-
-
 	map:draw({
 		x = camera.x - W / 2,
 		y = camera.y - H / 2,
@@ -74,11 +71,21 @@ function love.draw()
 		h = H,
 	})
 
+	hero:draw()
 
 
 	-- draw canvas independent of resolution
+	local w = G.getWidth()
+	local h = G.getHeight()
 	G.origin()
-	G.scale(G.getWidth() / W, G.getHeight() / H)
+	if w / h < W / H then
+		G.translate(0, (h - w / W * H) * 0.5)
+		G.scale(w / W, w / W)
+	else
+		G.translate((w - h / H * W) * 0.5, 0)
+		G.scale(h / H, h / H)
+	end
+
 	G.setCanvas()
 	G.draw(canvas)
 end
