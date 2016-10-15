@@ -54,9 +54,6 @@ end
 
 
 function love.draw()
-	if D"escape" then
-		love.window.close()
-	end
 	G.setCanvas(canvas)
 	G.clear(0, 0, 0)
 
@@ -86,3 +83,9 @@ function love.draw()
 	G.draw(canvas)
 end
 
+
+function love.keypressed(key)
+	if key == "escape" then
+		love.event.quit()
+	end
+end
