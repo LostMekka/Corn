@@ -20,15 +20,22 @@
                  "height":32,
                  "id":2,
                  "name":"player",
-                 "properties":
-                    {
-
-                    },
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":32,
                  "x":400,
+                 "y":1232
+                }, 
+                {
+                 "height":16,
+                 "id":4,
+                 "name":"voter",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":16,
+                 "x":544,
                  "y":1232
                 }],
          "opacity":1,
@@ -38,27 +45,21 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":4,
+ "nextobjectid":6,
  "orientation":"orthogonal",
- "properties":
-    {
-
-    },
  "renderorder":"right-down",
  "tileheight":16,
  "tilesets":[
         {
+         "columns":16,
          "firstgid":1,
          "image":"tiles.png",
          "imageheight":256,
          "imagewidth":256,
          "margin":0,
          "name":"tiles",
-         "properties":
-            {
-
-            },
          "spacing":0,
+         "tilecount":256,
          "tileheight":16,
          "tilewidth":16
         }],

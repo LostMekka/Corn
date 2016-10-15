@@ -1,7 +1,3 @@
-local G = love.graphics
-local D = love.keyboard.isDown
-
-
 Hero = Entity:new {
 	w = 24,
 	h = 24,
@@ -23,12 +19,4 @@ function Hero:getInput()
 		ix = bool[D"right"] - bool[D"left"],
 		jump = D"x"
 	}
-end
-
-
-function Hero:draw()
-	G.rectangle("line",
-		self.x - self.w / 2,
-		self.y - self.h / 2,
-		self.w, self.h)
 end

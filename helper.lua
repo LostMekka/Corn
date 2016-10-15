@@ -1,6 +1,3 @@
-local G = love.graphics
-
-
 Object = {}
 function Object:new(o)
 	o = o or {}

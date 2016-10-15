@@ -151,5 +151,8 @@ function Entity:move(input)
 end
 
 function Entity:draw()
-
+	G.rectangle("line",
+		self.x - self.w / 2,
+		self.y - self.h / 2,
+		self.w, self.h)
 end

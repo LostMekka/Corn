@@ -1,6 +1,5 @@
-local G = love.graphics
-local D = love.keyboard.isDown
-
+G = love.graphics
+D = love.keyboard.isDown
 
 
 -- init technical stuff
@@ -12,14 +11,12 @@ love.window.setMode(W, H, {fullscreen = true})
 love.mouse.setVisible(false)
 
 
-
 -- require stuff
 require "helper"
 require "entity"
+require "enemy"
 require "hero"
 require "map"
-
-
 
 
 Camera = Object:new()
@@ -29,19 +26,19 @@ function Camera:init(x, y)
 end
 
 
-
 -- instantiate stuff
 map = Map("media/map-01.json")
 hero = map.objects.player
 camera = Camera(map.objects.player.x, map.objects.player.y)
 
 
-
-
 function love.update()
 	-- move stuff around
 
 	hero:update()
+	for _, e in ipairs(map.objects.enemies) do
+		e:update()
+	end
 
 --	camera.x = camera.x + (bool[D"right"] - bool[D"left"]) * 4
 --	camera.y = camera.y + (bool[D"down"]  - bool[D"up"]) * 4
@@ -57,16 +54,10 @@ function love.draw()
 	G.setCanvas(canvas)
 	G.clear(0, 0, 0)
 
-
 	-- move camera
 	G.translate(-camera.x + W / 2, -camera.y + H / 2)
 
 	-- render your stuff here
-
-
-	hero:draw()
-
-
 	map:draw({
 		x = camera.x - W / 2,
 		y = camera.y - H / 2,
@@ -74,7 +65,10 @@ function love.draw()
 		h = H,
 	})
 
-
+	hero:draw()
+	for _, e in ipairs(map.objects.enemies) do
+		e:draw()
+	end
 
 	-- draw canvas independent of resolution
 	G.origin()
