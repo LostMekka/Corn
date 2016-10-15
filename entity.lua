@@ -32,6 +32,7 @@ function Entity:init(x, y)
 	self.y = y
 	self.vx = 0
 	self.vy = 0
+	self.isHero = false
 	self.dir = 1
 	self.movementState = "air"
 	self.actionState = "none"
@@ -190,4 +191,12 @@ function Entity:draw()
 			self.y - self.h / 2,
 			self.w, self.h)
 	end
+end
+
+function Entity:action_meleeAttack(box, damage)
+
+end
+
+function Entity:action_shoot()
+
 end

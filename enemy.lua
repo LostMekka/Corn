@@ -12,19 +12,32 @@ function Enemy:init(x, y)
 		time = 0,
 	}
 end
+
 function Enemy:update()
-	if self.aiState == "wander" then
-		local cliff = not self:canWalkForward()
-		if self.wanderState.time == 0 or cliff then
-			self.input.moveX = love.math.random(3) - 2
-			if cliff and self.input.moveX == self.dir then
-				self.input.moveX = self.input.moveX * -1
-			end
-			self.wanderState.time = love.math.random(60) + 10
-		end
-		self.wanderState.time = self.wanderState.time - 1
-	end
+	-- perception
+	self:updateSight()
+
+	-- states
+	if self.aiState == "wander" then self:updateWanderState() end
+
+	-- execute movement
 	Entity.update(self)
+end
+
+function Enemy:updateSight()
+
+end
+
+function Enemy:updateWanderState()
+	local cliff = not self:canWalkForward()
+	if self.wanderState.time == 0 or cliff then
+		self.input.moveX = love.math.random(3) - 2
+		if cliff and self.input.moveX == self.dir then
+			self.input.moveX = self.input.moveX * -1
+		end
+		self.wanderState.time = love.math.random(60) + 10
+	end
+	self.wanderState.time = self.wanderState.time - 1
 end
 
 function Enemy:getInput()
@@ -48,6 +61,7 @@ Voter = Enemy:new {
 function Voter:init(x, y)
 	Enemy.init(self, x, y)
 end
+
 function Voter:update()
 	Enemy.update(self)
 end

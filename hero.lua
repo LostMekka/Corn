@@ -12,6 +12,7 @@ Hero = Entity:new {
 
 function Hero:init(x, y)
 	self:super(x, y)
+	self.isHero = true
 end
 
 

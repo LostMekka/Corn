@@ -177,3 +177,12 @@ function Map:getRoomAt(x, y)
 	end
 	return nil
 end
+
+
+function Map:getEntityList(forHero)
+	if forHero then
+		return {self.object.player}
+	else
+		return self.objects.enemies
+	end
+end
