@@ -6,10 +6,10 @@ local D = love.keyboard.isDown
 -- init technical stuff
 W = 640
 H = 400
-canvas = G.newCanvas(W, H)
-love.window.setMode(W, H, {})
-love.mouse.setVisible(false)
 G.setDefaultFilter("nearest", "nearest")
+canvas = G.newCanvas(W, H)
+love.window.setMode(W, H, {fullscreen = true})
+love.mouse.setVisible(false)
 
 
 
@@ -37,11 +37,11 @@ camera = Camera()
 
 function love.update()
 	-- move stuff around
-
 	camera.x = camera.x + (bool[D"right"] - bool[D"left"]) * 10
 	camera.y = camera.y + (bool[D"down"] - bool[D"up"]) * 10
 
-
+	-- update entities
+	local time = love.timer.getAverageDelta()
 end
 
 
