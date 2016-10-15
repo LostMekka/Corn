@@ -198,7 +198,11 @@ function Entity:draw()
 end
 
 function Entity:action_meleeAttack(box, damage)
-
+	local targets = map:getEntityList(not self.isHero)
+	local target = map:firstCollisionWithBox(box, targets)
+	if target then
+		target:damage(damage)
+	end
 end
 
 function Entity:action_shoot()

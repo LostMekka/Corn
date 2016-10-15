@@ -144,6 +144,18 @@ function Map:entityCollisionAny(entity, targetList, axis)
 	end
 end
 
+function Map:firstCollisionWithBox(box, targetList)
+	local offsetX
+	local offsetY
+	for _, target in ipairs(targetList) do
+		local offsetX = collision(box, target:updateBB(), "x")
+		local offsetY = collision(box, target:updateBB(), "y")
+		if offsetX ~= 0 or offsetY ~= 0 then
+			return target
+		end
+	end
+end
+
 function Map:rayIntersection(ox, oy, dx, dy)
 	for i, b in ipairs(self.boxes) do
 		if not b.ow then

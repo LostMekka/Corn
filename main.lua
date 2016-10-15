@@ -13,7 +13,6 @@ love.window.setMode(W * 2, H * 2, {resizable = true})
 love.mouse.setVisible(false)
 paused = false
 
-
 -- require stuff
 require "helper"
 require "map"
