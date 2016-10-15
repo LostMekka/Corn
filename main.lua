@@ -32,7 +32,7 @@ end
 
 -- instantiate stuff
 map = Map("media/map-01.json")
-hero = Hero(map.objects.player.x, map.objects.player.y)
+hero = map.objects.player
 camera = Camera(map.objects.player.x, map.objects.player.y)
 
 
@@ -54,6 +54,9 @@ end
 
 
 function love.draw()
+	if D"escape" then
+		love.window.close()
+	end
 	G.setCanvas(canvas)
 	G.clear(0, 0, 0)
 
