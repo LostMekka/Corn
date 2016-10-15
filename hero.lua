@@ -1,4 +1,5 @@
 Hero = Entity:new {
+	name = "hero",
 	w = 24,
 	h = 24,
 	ACCEL_FLOOR       = 0.25,
@@ -17,6 +18,7 @@ end
 function Hero:getInput()
 	return {
 		moveX = bool[D"right"] - bool[D"left"],
-		jump = D"x"
+		jump = D"up" or D"x"
 	}
 end
+

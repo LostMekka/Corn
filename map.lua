@@ -59,7 +59,6 @@ function Map:init(filename)
 
 	end
 
-
 end
 function Map:collision(box, axis, dy)
 
@@ -69,7 +68,7 @@ function Map:collision(box, axis, dy)
 	local y2 = math.floor((box.y + box.h) / TILE_SIZE)
 
 
-	local b = { w=TILE_SIZE, h=TILE_SIZE }
+	local b = { w = TILE_SIZE, h = TILE_SIZE }
 
 	local d = 0
 

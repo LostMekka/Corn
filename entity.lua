@@ -13,7 +13,21 @@ Entity = Object:new {
 	JUMP_CUTOFF_SPEED = 1,
 }
 
+
+function Entity:initResources()
+	-- load image and quads
+	if not self.img and self.name then
+		self.img = G.newImage("media/" .. self.name .. ".png")
+		self.quads = makeQuads(
+			self.img:getWidth(),
+			self.img:getHeight(),
+			self.img:getHeight())
+	end
+end
+
+
 function Entity:init(x, y)
+	self:initResources()
 	self.x = x
 	self.y = y
 	self.vx = 0
@@ -54,8 +68,10 @@ function Entity:move(input)
 	local dir = self.dir
 
 	if self.movementState == "floor" then
-		self.vx = math.max(self.vx - self.ACCEL_FLOOR,
-			math.min(self.vx + self.ACCEL_FLOOR, input.moveX * self.MAX_WALK_SPEED))
+		self.vx = math.max(
+			self.vx - self.ACCEL_FLOOR,
+			math.min(self.vx + self.ACCEL_FLOOR, input.ix * self.MAX_WALK_SPEED)
+		)
 
 	elseif self.movementState == "air" then
 		local m = math.max(self.MAX_WALK_SPEED, math.abs(self.vx))
@@ -149,8 +165,13 @@ function Entity:move(input)
 end
 
 function Entity:draw()
-	G.rectangle("line",
-		self.x - self.w / 2,
-		self.y - self.h / 2,
-		self.w, self.h)
+	if self.img then
+		local s = self.img:getHeight()
+		G.draw(self.img, self.quads[1], self.x, self.y, 0, self.dir, 1, s / 2, s / 2)
+	else
+		G.rectangle("line",
+			self.x - self.w / 2,
+			self.y - self.h / 2,
+			self.w, self.h)
+	end
 end
