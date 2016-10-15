@@ -1,5 +1,5 @@
 require "entity"
 
-Enemy = Entity.new()
+Enemy = Entity:new()
 
-Voter = new Enemy()
+Voter = Enemy:new()

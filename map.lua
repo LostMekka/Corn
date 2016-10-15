@@ -19,6 +19,7 @@ function Map:init(filename)
 
 
 	self.objects = {}
+	self.objects.enemies = {}
 
 	self.rooms = {}
 
@@ -41,10 +42,13 @@ function Map:init(filename)
 			elseif layer.name == "objects" then
 
 				for j, obj in ipairs(layer.objects) do
+					local x = obj.x + obj.width / 2
+					local y = obj.y + obj.height / 2
 					if obj.name == "player" then
-						self.objects.player = {
-							x = obj.x + obj.width / 2,
-							y = obj.y + obj.height / 2 }
+						self.objects.player = Hero(x, y)
+					end
+					if obj.name == "voter" then
+						table.insert(self.objects.enemies, Voter(x, y))
 					end
 				end
 			end
