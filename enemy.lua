@@ -42,7 +42,7 @@ function Enemy:updateSight()
 end
 
 function Enemy:updateWanderState()
-	local cliff = not self:canWalkForward()
+	local cliff = self.movementState == "floor" and not self:canWalkForward()
 	if self.wanderState.time == 0 or cliff then
 		self.input.moveX = love.math.random(3) - 2
 		if cliff and self.input.moveX == self.dir then
