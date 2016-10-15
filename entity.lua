@@ -70,7 +70,7 @@ function Entity:move(input)
 	if self.movementState == "floor" then
 		self.vx = math.max(
 			self.vx - self.ACCEL_FLOOR,
-			math.min(self.vx + self.ACCEL_FLOOR, input.ix * self.MAX_WALK_SPEED)
+			math.min(self.vx + self.ACCEL_FLOOR, input.moveX * self.MAX_WALK_SPEED)
 		)
 
 	elseif self.movementState == "air" then
