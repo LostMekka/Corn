@@ -15,6 +15,7 @@ paused = false
 
 -- require stuff
 require "helper"
+require "timeinterval"
 require "map"
 require "entity"
 require "enemy"
@@ -86,13 +87,11 @@ function love.update()
 	end
 
 	-- move stuff around
-
 	hero:update()
+	camera:update()
 	for _, e in ipairs(enemies) do
 		e:update()
 	end
-
-	camera:update()
 	for _, p in ipairs(projectiles) do
 		p:update()
 		map:entityCollisionAny(p, enemies, "x")
@@ -101,6 +100,8 @@ function love.update()
 	for _, list in ipairs({enemies, projectiles}) do
 		updateList(list)
 	end
+
+	updateTimers()
 end
 
 

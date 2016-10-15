@@ -1,15 +1,39 @@
-TimeInterval = Object.new()
-
-function TimeInterval:init(duration)
-	self.currentTime = 0
-	self.duration = duration
+local timers = {}
+local function timerPredicate(timer)
+	return timer.destroyed
+end
+function updateTimers()
+	for _, i in ipairs(timers) do
+		i:update()
+	end
+	updateList(timers, timerPredicate)
 end
 
-function TimeInterval:isAtStart()
-	return self.currentTime == 0
+
+TimeInterval = Object:new()
+
+function TimeInterval:init(duration, callback)
+	self.currentTime = 0
+	self.duration = duration
+	self.callback = callback
+	self.destroyed = false
+	table.insert(timers, self)
 end
 
 function TimeInterval:update()
-	self.currentTime = (self.currentTime >= self.duration) and 0 or (self.currentTime + 1)
-	return self.currentTime == 0
+	if self.destroyed then
+		return
+	end
+	self.currentTime = self.currentTime + 1
+	if self.currentTime >= self.duration then
+		if self.callback() then
+			self.currentTime = 0
+		else
+			self:destroy()
+		end
+	end
+end
+
+function TimeInterval:destroy()
+	self.destroyed = true
 end
