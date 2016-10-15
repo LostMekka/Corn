@@ -87,10 +87,8 @@ function love.update()
 	-- move stuff around
 
 	hero:update()
-	for _, e in ipairs(map.objects.enemies) do
-		e:update()
-	end
 
+	updateList(map.objects.enemies)
 
 	camera:update()
 end

@@ -49,3 +49,16 @@ function collision(a, b, axis)
 		return math.abs(dy) < math.abs(dy2) and dy or dy2
 	end
 end
+
+
+function updateList(x)
+	local i = 1
+	for j, b in ipairs(x) do
+		x[j] = nil
+		b:update()
+		if not b.dead then
+			x[i] = b
+			i = i + 1
+		end
+	end
+end
