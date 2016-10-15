@@ -16,8 +16,8 @@ love.mouse.setVisible(false)
 -- require stuff
 require "helper"
 require "entity"
-require "map"
 require "hero"
+require "map"
 
 
 
