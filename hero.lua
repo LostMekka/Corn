@@ -18,10 +18,9 @@ end
 function Hero:getInput()
 	return {
 		ix = bool[D"right"] - bool[D"left"],
-		jump = D"x"
+		jump = D"up" or D"x"
 	}
 end
-
 
 function Hero:draw()
 	local s = self.img:getHeight()
