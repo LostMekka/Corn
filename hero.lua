@@ -28,27 +28,36 @@ function Hero:updateBB()
 end
 
 
+ACCEL_FLOOR = 0.25
+ACCEL_AIR   = 0.175
+
+MAX_SPEED_X = 4
+MAX_SPEED_Y = 4
+
+MAX_WALK_SPEED = 2
+
+GRAVITY = 0.2
+
 
 function Hero:update()
 	local ix = bool[D"right"] - bool[D"left"]
-	local iy = bool[D"down"] - bool[D"up"]
 	local jump = D"x"
 
 	local dir = self.dir
 
 	if self.state == "floor" then
-		self.vx = math.max(self.vx - 0.25, math.min(self.vx + 0.25, ix * 1))
+		self.vx = math.max(self.vx - ACCEL_FLOOR, math.min(self.vx + ACCEL_FLOOR, ix * MAX_WALK_SPEED))
 
 	elseif self.state == "air" then
-		local m = math.max(1, math.abs(self.vx))
-		self.vx = math.max(-m, math.min(m, self.vx + ix * 0.175))
+		local m = math.max(MAX_WALK_SPEED, math.abs(self.vx))
+		self.vx = math.max(-m, math.min(m, self.vx + ix * ACCEL_AIR))
 	end
 	if ix ~= 0 then
 		dir = ix
 	end
 
 
-	local vx = math.min(3, math.max(-3, self.vx))
+	local vx = math.min(MAX_SPEED_X, math.max(-MAX_SPEED_X, self.vx))
 	self.x = self.x + vx
 
 
@@ -66,9 +75,8 @@ function Hero:update()
 	if self.state == "air" or self.state == "floor" then
 
 		-- gravity
-		self.vy = self.vy + 0.2
-
-		local vy = math.min(3, math.max(-3, self.vy))
+		self.vy = self.vy + GRAVITY
+		local vy = math.min(MAX_SPEED_Y, math.max(-MAX_SPEED_Y, self.vy))
 		self.y = self.y + vy
 
 	end
@@ -94,22 +102,12 @@ function Hero:update()
 
 
 	if self.state == "floor" then
-		self.rope_state = "off"
 
 		-- jump
 		if jump and not self.jump and iy ~= 1 then
 			self.state = "air"
 			self.vy = -4
 			self.jump_control = true
-		end
-
-		-- drop
-		if jump and not self.jump and iy == 1 then
-			local dy = map:collision(self:updateBB(), "y")
-			if dy == 0 then
-				self.state = "air"
-				self.y = self.y + 0.5
-			end
 		end
 
 	elseif self.state == "air" then
@@ -125,7 +123,6 @@ function Hero:update()
 		end
 
 	end
-
 
 
 	self.jump = jump
