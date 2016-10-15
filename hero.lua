@@ -2,7 +2,7 @@ local G = love.graphics
 local D = love.keyboard.isDown
 
 
-Hero = Object:new {
+Hero = Entity:new {
 	w = 24,
 	h = 24,
 }
