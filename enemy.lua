@@ -32,7 +32,11 @@ function Enemy:setJump(b)
 end
 
 
-Voter = Enemy:new()
+Voter = Enemy:new {
+	h = 32,
+	w = 24,
+	name = "voter"
+}
 function Voter:update()
 	Enemy.update(self)
 end
