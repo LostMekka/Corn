@@ -1,4 +1,4 @@
---DEBUG = true
+DEBUG = false
 
 
 G = love.graphics
@@ -20,6 +20,7 @@ require "map"
 require "entity"
 require "enemy"
 require "hero"
+require "projectile"
 
 
 Camera = Object:new()
@@ -76,8 +77,9 @@ end
 -- instantiate stuff
 map = Map("media/map-01.json")
 hero = map.objects.player
+enemies = map.objects.enemies
+projectiles = map.objects.projectiles
 camera = Camera(map.objects.player.x, map.objects.player.y)
-
 
 function love.update()
 	if paused then
@@ -87,10 +89,19 @@ function love.update()
 	-- move stuff around
 
 	hero:update()
-
-	updateList(map.objects.enemies)
+	for _, e in ipairs(enemies) do
+		e:update()
+	end
 
 	camera:update()
+	for _, p in ipairs(projectiles) do
+		p:update()
+		map:entityCollisionAny(p, enemies, "x")
+	end
+
+	for _, list in ipairs({enemies, projectiles}) do
+		updateList(list)
+	end
 end
 
 
@@ -110,9 +121,20 @@ function love.draw()
 	})
 
 	hero:draw()
-	for _, e in ipairs(map.objects.enemies) do
+	for _, e in ipairs(enemies) do
 		e:draw()
 	end
+	for _, p in ipairs(projectiles) do
+		p:draw()
+	end
+
+	if DEBUG then
+		G.origin()
+		love.graphics.print('FPS: ' .. love.timer.getFPS(), 0, 0)
+		love.graphics.print('Enemies: ' .. #enemies, 0, 15)
+		love.graphics.print('Projectiles: ' .. #projectiles, 0, 30)
+	end
+
 
 	-- draw canvas independent of resolution
 	local w = G.getWidth()
@@ -125,7 +147,6 @@ function love.draw()
 		G.translate((w - h / H * W) * 0.5, 0)
 		G.scale(h / H, h / H)
 	end
-
 	G.setCanvas()
 	G.draw(canvas)
 end
@@ -136,5 +157,9 @@ function love.keypressed(key)
 		love.event.quit()
 	elseif key == "p" then
 		paused = not paused
+	elseif key == "s" then
+		table.insert(projectiles, Projectile(hero))
+	elseif key == "f11" then
+		DEBUG = not DEBUG
 	end
 end

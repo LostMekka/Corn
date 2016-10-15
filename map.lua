@@ -20,6 +20,7 @@ function Map:init(filename)
 
 	self.objects = {}
 	self.objects.enemies = {}
+	self.objects.projectiles = {}
 
 	self.rooms = {}
 
@@ -131,6 +132,16 @@ function Map:collision(box, axis, dy)
 
 
 	return d
+end
+
+function Map:entityCollisionAny(entity, targetList, axis)
+	local offset
+	for _, target in ipairs(targetList) do
+		offset = collision(entity:updateBB(), target:updateBB(), axis)
+		if offset ~= 0 and entity.onCollide then
+			entity:onCollide(axis, offset, target)
+		end
+	end
 end
 
 function Map:rayIntersection(ox, oy, dx, dy)
