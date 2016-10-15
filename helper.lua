@@ -51,7 +51,7 @@ function collision(a, b, axis)
 end
 
 local function defaultFilterPredicate(item)
-	return item.dead
+	return not item.alive
 end
 function updateList(x, predicate)
 	predicate = predicate or defaultFilterPredicate
