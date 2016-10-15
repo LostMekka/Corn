@@ -1,8 +1,13 @@
---
--- Created by IntelliJ IDEA.
--- User: Sebastian
--- Date: 15.10.2016
--- Time: 13:16
--- To change this template use File | Settings | File Templates.
---
+require "helper"
 
+Entity = Object.new{
+    bounds = {x = 0, y = 0, w = 32, h = 32}
+}
+function Entity:init(x,y)
+    self.x = x
+    self.y = y
+end
+
+function Entity.update(time)
+
+end
