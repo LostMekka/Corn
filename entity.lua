@@ -13,7 +13,21 @@ Entity = Object:new {
 	JUMP_CUTOFF_SPEED = 1,
 }
 
+
+function Entity:initResources()
+	-- load image and quads
+	if not self.img and self.name then
+		self.img = G.newImage("media/" .. self.name .. ".png")
+		self.quads = makeQuads(
+			self.img:getWidth(),
+			self.img:getHeight(),
+			self.img:getHeight())
+	end
+end
+
+
 function Entity:init(x, y)
+	self:initResources()
 	self.x = x
 	self.y = y
 	self.vx = 0
@@ -60,7 +74,7 @@ function Entity:move(input)
 		self.vx = math.max(-m, math.min(m, self.vx + input.ix * self.ACCEL_AIR))
 	end
 	if input.ix ~= 0 then
-		dir = ix
+		dir = input.ix
 	end
 
 

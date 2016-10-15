@@ -1,4 +1,5 @@
 Hero = Entity:new {
+	name = "hero",
 	w = 24,
 	h = 24,
 	ACCEL_FLOOR       = 0.25,
@@ -17,6 +18,11 @@ end
 function Hero:getInput()
 	return {
 		ix = bool[D"right"] - bool[D"left"],
-		jump = D"x"
+		jump = D"up" or D"x"
 	}
+end
+
+function Hero:draw()
+	local s = self.img:getHeight()
+	G.draw(self.img, self.quads[1], self.x, self.y, 0, self.dir, 1, s / 2, s / 2)
 end
