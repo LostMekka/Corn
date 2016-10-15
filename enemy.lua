@@ -11,6 +11,19 @@ function Enemy:init(x, y)
 	self.wanderState = {
 		time = 0,
 	}
+	-- funny random jumping just to test stuff
+	local onFinishedJumping, onStartJumping
+	onFinishedJumping = function()
+		self.input.jump = false
+		TimeInterval(love.math.random(300) + 60, onStartJumping)
+		return false
+	end
+	onStartJumping = function()
+		self.input.jump = true
+		TimeInterval(love.math.random(20) + 10, onFinishedJumping)
+		return false
+	end
+	onFinishedJumping()
 end
 
 function Enemy:update()

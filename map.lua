@@ -24,12 +24,12 @@ function Map:init(filename)
 
 	self.rooms = {}
 
-	for i, layer in ipairs(data.layers) do
+	for _, layer in ipairs(data.layers) do
 
 		if layer.type == "objectgroup" then
 			-- room layer
 			if layer.name == "rooms" then
-				for j, obj in ipairs(layer.objects) do
+				for _, obj in ipairs(layer.objects) do
 					local room = {
 						x = obj.x,
 						y = obj.y,
@@ -42,7 +42,7 @@ function Map:init(filename)
 
 			elseif layer.name == "objects" then
 
-				for j, obj in ipairs(layer.objects) do
+				for _, obj in ipairs(layer.objects) do
 					local x = obj.x + obj.width / 2
 					local y = obj.y + obj.height / 2
 					if obj.name == "player" then
@@ -61,7 +61,7 @@ function Map:init(filename)
 	end
 
 end
-function Map:collision(box, axis, dy)
+function Map:collision(box, axis)
 
 	local x1 = math.floor(box.x / TILE_SIZE)
 	local x2 = math.floor((box.x + box.w) / TILE_SIZE)
@@ -148,8 +148,9 @@ function Map:firstCollisionWithBox(box, targetList)
 	local offsetX
 	local offsetY
 	for _, target in ipairs(targetList) do
-		local offsetX = collision(box, target:updateBB(), "x")
-		local offsetY = collision(box, target:updateBB(), "y")
+		local targetBox = target:updateBB()
+		local offsetX = collision(box, targetBox, "x")
+		local offsetY = collision(box, targetBox, "y")
 		if offsetX ~= 0 or offsetY ~= 0 then
 			return target
 		end
@@ -157,7 +158,8 @@ function Map:firstCollisionWithBox(box, targetList)
 end
 
 function Map:rayIntersection(ox, oy, dx, dy)
-	for i, b in ipairs(self.boxes) do
+	local d
+	for _, b in ipairs(self.boxes) do
 		if not b.ow then
 
 			local e = rayBoxIntersection(ox, oy, dx, dy, b)
@@ -192,7 +194,7 @@ end
 
 
 function Map:getRoomAt(x, y)
-	for i, room in ipairs(self.rooms) do
+	for _, room in ipairs(self.rooms) do
 		if room.x <= x and x <= room.x + room.w
 		and room.y <= y and y <= room.y + room.h then
 			return room
