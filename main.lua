@@ -40,10 +40,13 @@ camera = Camera(map.objects.player.x, map.objects.player.y)
 
 function love.update()
 	-- move stuff around
-	camera.x = camera.x + (bool[D"right"] - bool[D"left"]) * 4
-	camera.y = camera.y + (bool[D"down"]  - bool[D"up"]) * 4
 
-	hero.update()
+	hero:update()
+
+--	camera.x = camera.x + (bool[D"right"] - bool[D"left"]) * 4
+--	camera.y = camera.y + (bool[D"down"]  - bool[D"up"]) * 4
+	camera.x = hero.x
+	camera.y = hero.y
 
 	-- update entities
 	local time = love.timer.getAverageDelta()

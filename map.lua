@@ -8,7 +8,7 @@ TILE_SIZE = 16
 Map = Object:new {
 	img = G.newImage("media/tiles.png"),
 }
-Map.quads = makeQuads(Map.img:getWidth(), Map.img:getHeight(), 16)
+Map.quads = makeQuads(Map.img:getWidth(), Map.img:getHeight(), TILE_SIZE)
 function Map:init(filename)
 
 	local raw = love.filesystem.read(filename)
@@ -59,42 +59,45 @@ function Map:init(filename)
 end
 function Map:collision(box, axis, dy)
 
-	local x1 = math.floor(box.x / 16)
-	local x2 = math.floor((box.x + box.w) / 16)
-	local y1 = math.floor(box.y / 16)
-	local y2 = math.floor((box.y + box.h) / 16)
+	local x1 = math.floor(box.x / TILE_SIZE)
+	local x2 = math.floor((box.x + box.w) / TILE_SIZE)
+	local y1 = math.floor(box.y / TILE_SIZE)
+	local y2 = math.floor((box.y + box.h) / TILE_SIZE)
 
 
-	local b = { w=16, h=16 }
+	local b = { w=TILE_SIZE, h=TILE_SIZE }
 
 	local d = 0
+
 	for x = x1, x2 do
 		for y = y1, y2 do
 
 			local cell = self.tile_data[y * self.w + x + 1]
 			if cell and cell > 0 then
 
-				b.x = x * 16
-				b.y = y * 16
+				b.x = x * TILE_SIZE
+				b.y = y * TILE_SIZE
 
-				if cell == 1 and dy ~= "cliff" then
-
-					if axis == "y" and dy then
-						if box.y + box.h > b.y
-						and box.y + box.h - dy - 0.01 <= b.y
-						and box.x + box.w > b.x and box.x < b.x + b.w then
-
-							local e = -(box.y + box.h - b.y)
-							if math.abs(e) > math.abs(d) then d = e end
-
-						end
-					end
-
-
-				else
+--				if cell == 1 and dy ~= "cliff" then
+--
+--					if axis == "y" and dy then
+--						if box.y + box.h > b.y
+--						and box.y + box.h - dy - 0.01 <= b.y
+--						and box.x + box.w > b.x and box.x < b.x + b.w then
+--
+--							local e = -(box.y + box.h - b.y)
+--							if math.abs(e) > math.abs(d) then d = e end
+--
+--						end
+--					end
+--
+--
+--				else
+--
 					local e = collision(box, b, axis)
 					if math.abs(e) > math.abs(d) then d = e end
-				end
+
+--				end
 			end
 		end
 	end
@@ -144,17 +147,17 @@ function Map:draw(area)
 
 	G.setColor(255, 255, 255)
 
-	local x1 = math.floor(area.x / 16)
-	local x2 = math.floor((area.x + area.w) / 16)
-	local y1 = math.floor(area.y / 16)
-	local y2 = math.floor((area.y + area.h) / 16)
+	local x1 = math.floor(area.x / TILE_SIZE)
+	local x2 = math.floor((area.x + area.w) / TILE_SIZE)
+	local y1 = math.floor(area.y / TILE_SIZE)
+	local y2 = math.floor((area.y + area.h) / TILE_SIZE)
 
 	for x = x1, x2 do
 		for y = y1, y2 do
 
 			local cell = self.tile_data[y * self.w + x + 1]
 			if cell and cell > 0 then
-				G.draw(self.img, self.quads[cell], x * 16, y * 16)
+				G.draw(self.img, self.quads[cell], x * TILE_SIZE, y * TILE_SIZE)
 			end
 		end
 	end
