@@ -182,7 +182,9 @@ function Entity:draw()
 	if self.img then
 		local s = self.img:getHeight()
 		G.draw(self.img, self.quads[1], self.x, self.y, 0, self.dir, 1, s / 2, s / 2)
-	else
+	end
+
+	if not self.img or DEBUG then
 		G.rectangle("line",
 			self.x - self.w / 2,
 			self.y - self.h / 2,

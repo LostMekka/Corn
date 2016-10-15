@@ -38,7 +38,7 @@ end
 
 Voter = Enemy:new {
 	h = 32,
-	w = 24,
+	w = 18,
 	name = "voter"
 }
 function Voter:init(x, y)
