@@ -1,7 +1,7 @@
 local G = love.graphics
 
 Object = {}
-function Object:New(o)
+function Object:new(o)
 	o = o or {}
 	setmetatable(o, self)
 	local m = getmetatable(self)
@@ -11,7 +11,7 @@ function Object:New(o)
 	return o
 end
 setmetatable(Object, { __call = function(self, ...)
-	local o = self:New()
+	local o = self:new()
 	if o.init then o:init(...) end
 	return o
 end })
@@ -20,3 +20,13 @@ end })
 bool = { [true] = 1, [false] = 0 }
 
 
+
+function makeQuads(w, h, s)
+	local quads = {}
+	for y = 0, h - s, s do
+		for x = 0, w - s, s do
+			table.insert(quads, love.graphics.newQuad(x, y, s, s, w, h))
+		end
+	end
+	return quads
+end

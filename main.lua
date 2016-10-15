@@ -1,33 +1,69 @@
-require "helper"
-
 local G = love.graphics
+local D = love.keyboard.isDown
 
 
-love.mouse.setVisible(false)
-G.setDefaultFilter("nearest", "nearest")
-G.setBackgroundColor(0, 0, 0, 0)
 
-
+-- init technical stuff
 W = 640
 H = 400
 canvas = G.newCanvas(W, H)
 love.window.setMode(W, H, {})
+love.mouse.setVisible(false)
+G.setDefaultFilter("nearest", "nearest")
+
+
+
+-- require stuff
+require "helper"
+require "map"
+
+
+
+
+Camera = Object:new()
+function Camera:init()
+	self.x = 100
+	self.y = 100
+end
+
+
+
+-- instantiate stuff
+map = Map("media/map-01.json")
+camera = Camera()
+
+
 
 
 function love.update()
+	-- move stuff around
+
+	camera.x = camera.x + (bool[D"right"] - bool[D"left"]) * 10
+	camera.y = camera.y + (bool[D"down"] - bool[D"up"]) * 10
+
 
 end
 
+
 function love.draw()
 	G.setCanvas(canvas)
+	G.clear(0, 0, 0)
 
+
+	-- move camera
+	G.translate(-camera.x + W / 2, -camera.y + H / 2)
 
 	-- render your stuff here
 
-	G.clear(10, 10, 10)
-	G.circle("line", 320, 200, 200)
 
 
+	-- render map
+	map:draw({
+		x = camera.x - W / 2,
+		y = camera.y - H / 2,
+		w = W,
+		h = H,
+	})
 
 
 
@@ -40,7 +76,3 @@ function love.draw()
 	G.draw(canvas)
 end
 
-function love.keypressed(key)
-
-
-end
