@@ -1,6 +1,8 @@
+--DEBUG = true
+
+
 G = love.graphics
 D = love.keyboard.isDown
-
 
 -- init technical stuff
 W = 400
