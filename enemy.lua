@@ -3,11 +3,11 @@ Enemy = Entity:new {
 	attackStrategy = "meelee",
 	sightRange = 6 * TILE_SIZE,
 	aiState = "wander",
-	input = Entity.getDefaultInput(),
 	MAX_WALK_SPEED = 1,
 }
 function Enemy:init(x, y)
 	Entity.init(self, x, y)
+	self.input = Entity.getDefaultInput()
 	self.wanderState = {
 		time = 0,
 	}
