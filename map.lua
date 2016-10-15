@@ -77,7 +77,7 @@ function Map:collision(box, axis, dy)
 		for y = y1, y2 do
 
 			local cell = self.tile_data[y * self.w + x + 1]
-			if cell and cell > 0 then
+			if cell and cell > 0 and cell <= 128 then
 
 				b.x = x * TILE_SIZE
 				b.y = y * TILE_SIZE
