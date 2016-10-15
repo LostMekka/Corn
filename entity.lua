@@ -34,6 +34,7 @@ function Entity:init(x, y)
 	self.vy = 0
 	self.dir = 1
 	self.movementState = "air"
+	self.actionState = "none"
 	self.box = {}
 	self:updateBB()
 end

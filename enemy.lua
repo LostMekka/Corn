@@ -4,6 +4,7 @@ Enemy = Entity:new {
 	sightRange = 6 * TILE_SIZE,
 	aiState = "wander",
 	input = Entity.getDefaultInput(),
+	MAX_WALK_SPEED = 1,
 }
 function Enemy:init(x, y)
 	Entity.init(self, x, y)
@@ -35,7 +36,11 @@ function Enemy:setJump(b)
 end
 
 
-Voter = Enemy:new()
+Voter = Enemy:new {
+	h = 32,
+	w = 24,
+	name = "voter"
+}
 function Voter:init(x, y)
 	Enemy.init(self, x, y)
 end
