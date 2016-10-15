@@ -4,10 +4,13 @@ Enemy = Entity:new {
 	sightRange = 6 * TILE_SIZE,
 	aiState = "wander",
 	input = Entity.getDefaultInput(),
-	wanderState = {
-		time = 0,
-	},
 }
+function Enemy:init(x, y)
+	Entity.init(self, x, y)
+	self.wanderState = {
+		time = 0,
+	}
+end
 function Enemy:update()
 	if self.aiState == "wander" then
 		if self.wanderState.time == 0 then
@@ -33,6 +36,9 @@ end
 
 
 Voter = Enemy:new()
+function Voter:init(x, y)
+	Enemy.init(self, x, y)
+end
 function Voter:update()
 	Enemy.update(self)
 end
