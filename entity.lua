@@ -8,6 +8,9 @@ function Entity:init(x,y)
     self.y = y
 end
 
-function Entity.update(time)
+function Entity:draw()
+end
+
+function Entity:update(time)
 
 end
