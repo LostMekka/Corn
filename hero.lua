@@ -42,21 +42,32 @@ JUMP_START_SPEED  = 4
 JUMP_CUTOFF_SPEED = 1
 
 
-
 function Hero:update()
-	local ix = bool[D"right"] - bool[D"left"]
-	local jump = D"x"
+	local input = self:getInput()
+	self:move(input)
+end
+
+
+function Hero:getInput()
+	return {
+		ix = bool[D"right"] - bool[D"left"],
+		jump = D"x"
+	}
+end
+
+
+function Hero:move(input)
 
 	local dir = self.dir
 
 	if self.state == "floor" then
-		self.vx = math.max(self.vx - ACCEL_FLOOR, math.min(self.vx + ACCEL_FLOOR, ix * MAX_WALK_SPEED))
+		self.vx = math.max(self.vx - ACCEL_FLOOR, math.min(self.vx + ACCEL_FLOOR, input.ix * MAX_WALK_SPEED))
 
 	elseif self.state == "air" then
 		local m = math.max(MAX_WALK_SPEED, math.abs(self.vx))
-		self.vx = math.max(-m, math.min(m, self.vx + ix * ACCEL_AIR))
+		self.vx = math.max(-m, math.min(m, self.vx + input.ix * ACCEL_AIR))
 	end
-	if ix ~= 0 then
+	if input.ix ~= 0 then
 		dir = ix
 	end
 
@@ -107,7 +118,7 @@ function Hero:update()
 	if self.state == "floor" then
 
 		-- jump
-		if jump and not self.jump and iy ~= 1 then
+		if input.jump and not self.jump and iy ~= 1 then
 			self.state = "air"
 			self.vy = -JUMP_START_SPEED
 			self.jump_control = true
@@ -117,7 +128,7 @@ function Hero:update()
 
 		-- control jump height
 		if self.jump_control then
-			if not jump and self.vy < -JUMP_CUTOFF_SPEED then
+			if not input.jump and self.vy < -JUMP_CUTOFF_SPEED then
 				self.vy = -JUMP_CUTOFF_SPEED
 				self.jump_control = false
 			elseif self.vy > -1 then
@@ -128,7 +139,7 @@ function Hero:update()
 	end
 
 
-	self.jump = jump
+	self.jump = input.jump
 	self.dir = dir
 
 	-- animations
@@ -145,6 +156,7 @@ function Hero:update()
 --	end
 
 	self:updateBB()
+
 
 end
 
