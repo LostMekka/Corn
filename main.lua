@@ -9,6 +9,7 @@ G.setDefaultFilter("nearest", "nearest")
 canvas = G.newCanvas(W, H)
 love.window.setMode(W, H, {resizable = true})
 love.mouse.setVisible(false)
+paused = false
 
 
 -- require stuff
@@ -33,6 +34,10 @@ camera = Camera(map.objects.player.x, map.objects.player.y)
 
 
 function love.update()
+	if paused then
+		return
+	end
+
 	-- move stuff around
 
 	hero:update()
@@ -87,5 +92,7 @@ end
 function love.keypressed(key)
 	if key == "escape" then
 		love.event.quit()
+	elseif key == "p" then
+		paused = not paused
 	end
 end
