@@ -1,5 +1,6 @@
 local G = love.graphics
 
+
 Object = {}
 function Object:new(o)
 	o = o or {}
@@ -18,7 +19,6 @@ end })
 
 
 bool = { [true] = 1, [false] = 0 }
-
 
 
 function makeQuads(w, h, s)

@@ -25,7 +25,6 @@ function Entity:init(x, y)
 end
 
 function Entity:update()
-	print("blah")
 	local input = self:getInput()
 	self:move(input)
 end
@@ -152,9 +151,5 @@ function Entity:move(input)
 end
 
 function Entity:draw()
-
-end
-
-function Entity:update()
 
 end
