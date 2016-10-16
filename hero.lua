@@ -29,22 +29,6 @@ function Hero:getInput()
 	}
 end
 
-local function getMelee1Details(hero)
-	local w, h = 8, 8
-
-	-- TODO: BALANCING replace with   + w / 2   once attacks are handled by timer
-	local startX = hero.x + (hero.w / 2  ) * hero.dir
-	local startY = hero.y
-	local box = {
-		x = startX - w / 2,
-		y = startY - h / 2,
-		w = w,
-		h = h,
-	}
-
-	return 20, box
-end
-
 
 function Hero:handleAttacks()
 
@@ -62,18 +46,4 @@ function Hero:handleAttacks()
 		end
 	end
 
-
---	local damage, box
---
---	if D"c" then
---		damage, box = getMelee1Details(self)
---	elseif D"v" then
---
---	elseif not (damage and box) then
---		return
---	else
---		return
---	end
---
---	self:action_meleeAttack(box, damage)
 end

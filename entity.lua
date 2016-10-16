@@ -223,11 +223,12 @@ end
 
 function Entity:action_meleeAttack(box, damage, hitCallback)
 	local targets = map:getEntityList(not self.isHero)
-	local target = map:firstCollisionWithBox(box, targets)
-	if target then
-		target:damage(damage)
-		if hitCallback then
-			hitCallback(target)
+	for _, target in ipairs(targets) do
+		if collision(box, target.box) ~= 0 then
+			target:damage(damage)
+			if hitCallback then
+				hitCallback(target)
+			end
 		end
 	end
 end
@@ -264,6 +265,28 @@ function UnicornThrust:update(entity, input)
 		if dx ~= 0 then
 			entity.x = entity.x + dx
 		end
+
+
+		local meleeBox = {
+			x = entity.box.x + entity.dir * 5,
+			y = entity.box.y,
+			w = entity.box.w,
+			h = entity.box.h,
+		}
+
+		for _, e in ipairs(map.objects.enemies) do
+			local dx = collision(meleeBox, e.box, "x")
+			if dx ~= 0 then
+				e:knockback(entity)
+				e:damage(25)
+				entity:knockback(e, 0.2)
+				entity.x = entity.x + dx
+			end
+		end
+
+
+
+
 	else
 		entity:move(entity.getDefaultInput())
 	end
