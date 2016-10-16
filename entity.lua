@@ -227,6 +227,7 @@ function Entity:action_meleeAttack(box, damage, hitCallback)
 	end
 end
 
-function Entity:action_shoot()
-	table.insert(projectiles, Projectile(self, 10))
+function Entity:action_shoot(damage, projectileName)
+	damage = damage or 10
+	table.insert(projectiles, Projectile(self, damage, projectileName))
 end
