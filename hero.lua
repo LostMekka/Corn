@@ -15,6 +15,12 @@ function Hero:init(x, y)
 	self.isHero = true
 end
 
+function Hero:update()
+	Entity.update(self)
+	if not self.alive then
+		gameState.over = true
+	end
+end
 
 function Hero:getInput()
 	return {
