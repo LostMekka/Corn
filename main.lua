@@ -119,12 +119,14 @@ menu = Menu()
 song = A.newSource("media/music_001.mp3")
 A.play(song)
 
+heartImg = G.newImage("media/heart.png")
 
 function love.update()
 	if not menu:isPlaying() then
 		updateList(particles)
 		return
 	end
+
 
 	-- move stuff around
 	hero:update()
@@ -173,7 +175,9 @@ function love.draw()
 
 	G.origin()
 
-	love.graphics.printf('LP: ' .. math.max(hero.life or 0, 0), 0, 0, 400, "right")
+	for i = 1, hero.life do
+		G.draw(heartImg, 9 * i - 8, 1)
+	end
 
 	if DEBUG then
 		love.graphics.print('FPS: ' .. love.timer.getFPS(), 0, 0)
@@ -182,6 +186,8 @@ function love.draw()
 	end
 
 	menu:draw()
+
+
 
 	-- draw canvas independent of resolution
 	local w = G.getWidth()

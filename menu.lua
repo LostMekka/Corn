@@ -1,5 +1,4 @@
 Menu = Object:new {
-	heartImg = G.newImage("media/heart.png"),
 	-- state may be "start", "over", "pause", "playing", "win"
 	state = "start",
 }
