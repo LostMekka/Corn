@@ -25,10 +25,10 @@ function Enemy:init(x, y)
 		return false
 	end
 	onFinishedJumping()
-	TimeInterval(love.math.random(5) + 5, function()
-		self:action_shoot()
-		return true
-	end)
+--	TimeInterval(love.math.random(5) + 5, function()
+--		self:action_shoot()
+--		return true
+--	end)
 end
 
 function Enemy:update()
