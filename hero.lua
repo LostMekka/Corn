@@ -6,7 +6,7 @@ Hero = Entity:new {
 	ACCEL_FLOOR       = 0.25,
 	ACCEL_AIR         = 0.175,
 	MAX_WALK_SPEED    = 2,
-	JUMP_START_SPEED  = 4,
+	JUMP_START_SPEED  = 4.6,
 	JUMP_CUTOFF_SPEED = 1,
 }
 

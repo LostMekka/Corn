@@ -1,6 +1,7 @@
 Projectile = Entity:new {
-	w = 8,
-	h = 8,
+	w = 4,
+	h = 4,
+	ttl = 100,
 	ACCEL_FLOOR       = 1,
 	ACCEL_AIR         = 1,
 	MAX_WALK_SPEED    = 4,
@@ -19,6 +20,11 @@ end
 
 function Projectile:update()
 	Entity.update(self)
+	self.ttl = self.ttl - 1
+	if self.ttl <= 0 then
+		self.alive = false
+	end
+
 	local targets = map:getEntityList(self.damagesHero)
 	local target, axis, offset = map:firstCollisionWithBox(self:updateBB(), targets)
 	if axis == "x" then
