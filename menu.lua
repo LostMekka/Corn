@@ -1,22 +1,40 @@
-Menu = Entity:new()
+Menu = Object:new {
+	heartImg = G.newImage("media/heart.png"),
+	-- state may be "start", "over", "pause", "playing", ...
+	state = "start",
+}
+function Menu:isPlaying()
+	return self.state == "playing"
+end
+function Menu:togglePause()
+	if self.state == "pause" then
+		self.state = "playing"
+	elseif self.state == "playing" then
+		self.state = "pause"
+	end
+end
+function Menu:gameOver()
+	self.state = "over"
+end
+
 
 local menuEntries = {
 	{
 		text = "Start",
 		show = function()
-			return gameState.start
+			return menu.state == "start"
 		end,
 		action = function()
-			gameState.start = false
+			menu.state = "playing"
 		end,
 	},
 	{
 		text = "Continue",
 		show = function()
-			return gameState.paused
+			return menu.state == "pause"
 		end,
 		action = function()
-			gameState.paused = false
+			menu.state = "playing"
 		end,
 	},
 --	{
@@ -68,7 +86,7 @@ end
 
 local w, h = 300, 200
 function Menu:draw()
-	if not gameState:isMenu() then
+	if self.state == "playing" then
 		return
 	end
 
@@ -82,13 +100,13 @@ function Menu:draw()
 	G.setColor(unpack(color))
 
 	local headline, subHeadline = "", ""
-	if gameState.start then
+	if self.state == "start" then
 		headline = "START"
 		subHeadline = ""
-	elseif gameState.over then
+	elseif self.state == "over" then
 		headline = "GAME OVER"
 		subHeadline = "The world is doomed"
-	elseif gameState.paused	then
+	elseif self.state == "pause" then
 		headline = "PAUSE"
 		subHeadline = "Press P to continue"
 	else
@@ -124,7 +142,7 @@ function Menu:init()
 end
 
 function Menu:keypressed(key)
-	if not gameState:isMenu() then
+	if self.state == "playing" then
 		return true
 	end
 

@@ -18,7 +18,7 @@ end
 function Hero:update()
 	Entity.update(self)
 	if not self.alive then
-		gameState.over = true
+		menu:gameOver()
 	end
 end
 

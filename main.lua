@@ -1,5 +1,8 @@
 --DEBUG = true
 
+-- lines that are rendered if DEBUG is set
+debugLines = {}
+
 
 G = love.graphics
 D = love.keyboard.isDown
@@ -11,15 +14,9 @@ G.setDefaultFilter("nearest", "nearest")
 canvas = G.newCanvas(W, H)
 love.window.setMode(W * 2, H * 2, {resizable = true})
 love.mouse.setVisible(false)
-gameState = {
-	start = true,
-	paused = false,
-	over = false,
-	isMenu = function() return gameState.start or gameState.paused or gameState.over end,
-}
 
--- debug stuff
-debugLines = {}
+
+
 
 -- require stuff
 require "helper"
@@ -34,6 +31,28 @@ require "hero"
 require "projectile"
 require "particle"
 require "menu"
+
+
+
+gameState = Object:new {
+	-- state may be "start", "over", "pause", "playing", ...
+	state = "start"
+}
+function Menu:isMenu()
+	return self.state ~= "playing"
+end
+function Menu:togglePause()
+	if self.state == "pause" then
+		self.state = "playing"
+	elseif self.state == "playing" then
+		self.state = "pause"
+	end
+end
+
+
+
+
+
 
 Camera = Object:new()
 function Camera:init(x, y)
@@ -97,8 +116,9 @@ particles = {}
 camera = Camera(map.objects.player.x, map.objects.player.y)
 menu = Menu()
 
+
 function love.update()
-	if gameState:isMenu() then
+	if not menu:isPlaying() then
 		updateList(particles)
 		return
 	end
@@ -173,7 +193,7 @@ function love.keypressed(key)
 		if key == "escape" then
 			love.event.quit()
 		elseif key == "p" then
-			gameState.paused = not gameState.paused
+			menu:togglePause()
 		elseif key == "f11" then
 			DEBUG = not DEBUG
 		end
