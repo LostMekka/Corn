@@ -11,7 +11,10 @@ G.setDefaultFilter("nearest", "nearest")
 canvas = G.newCanvas(W, H)
 love.window.setMode(W * 2, H * 2, {resizable = true})
 love.mouse.setVisible(false)
-paused = false
+gameState = {
+	paused = false,
+	over = false,
+}
 
 -- require stuff
 require "helper"
@@ -82,7 +85,7 @@ projectiles = map.objects.projectiles
 camera = Camera(map.objects.player.x, map.objects.player.y)
 
 function love.update()
-	if paused then
+	if gameState.paused or gameState.over then
 		return
 	end
 
@@ -129,6 +132,25 @@ function love.draw()
 	end
 
 
+	do -- game state printing
+		local bigText, smallText
+		if gameState.over then
+			bigText = "GAME OVER"
+			smallText = "The world is doomed"
+		elseif gameState.paused	then
+			bigText = "PAUSE"
+			smallText = "Press P to continue"
+		end
+		if bigText then
+			G.origin()
+			love.graphics.setNewFont(30)
+			love.graphics.printf(bigText, 0, 70, 400, "center")
+			love.graphics.setNewFont()
+			love.graphics.printf(smallText or "", 0, 100, 400, "center")
+		end
+	end
+
+
 	-- draw canvas independent of resolution
 	local w = G.getWidth()
 	local h = G.getHeight()
@@ -149,7 +171,7 @@ function love.keypressed(key)
 	if key == "escape" then
 		love.event.quit()
 	elseif key == "p" then
-		paused = not paused
+		gameState.paused = not gameState.paused
 	elseif key == "s" then
 		table.insert(projectiles, Projectile(hero, 10))
 	elseif key == "f11" then
