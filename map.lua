@@ -195,7 +195,7 @@ end
 
 function Map:getEntityList(forHero)
 	if forHero then
-		return {self.object.player}
+		return {self.objects.player}
 	else
 		return self.objects.enemies
 	end

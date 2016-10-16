@@ -206,14 +206,17 @@ function Entity:draw()
 	end
 end
 
-function Entity:action_meleeAttack(box, damage)
+function Entity:action_meleeAttack(box, damage, hitCallback)
 	local targets = map:getEntityList(not self.isHero)
 	local target = map:firstCollisionWithBox(box, targets)
 	if target then
 		target:damage(damage)
+		if hitCallback then
+			hitCallback(target)
+		end
 	end
 end
 
 function Entity:action_shoot()
-	table.insert(projectiles, Projectile(self))
+	table.insert(projectiles, Projectile(self, 10))
 end

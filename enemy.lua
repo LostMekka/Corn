@@ -1,13 +1,14 @@
 Enemy = Entity:new {
-	seesHero = false,
 	attackStrategy = "meelee",
 	sightRange = 6 * TILE_SIZE,
 	aiState = "wander",
 	MAX_WALK_SPEED = 1,
+	touchDamage = 10,
 }
 function Enemy:init(x, y)
 	Entity.init(self, x, y)
 	self.input = Entity.getDefaultInput()
+	self.seesHero = false
 	self.wanderState = {
 		time = 0,
 	}
@@ -24,6 +25,14 @@ function Enemy:init(x, y)
 		return false
 	end
 	onFinishedJumping()
+	TimeInterval(love.math.random(5) + 5, function()
+		self:action_shoot()
+		return true
+	end)
+end
+
+function Enemy:onTouchDamageHit(target)
+
 end
 
 function Enemy:update()
@@ -35,6 +44,18 @@ function Enemy:update()
 
 	-- execute movement
 	Entity.update(self)
+
+	-- deal touch damage
+	if self.touchDamage then
+		self:action_meleeAttack(self:updateBB(), self.touchDamage, function(target)
+			local dir = 1
+			if target.x < self.x then
+				dir = -dir
+			end
+			target.vx = dir * 3
+			target.vy = -2
+		end)
+	end
 end
 
 function Enemy:updateSight()

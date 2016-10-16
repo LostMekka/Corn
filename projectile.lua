@@ -13,18 +13,20 @@ function Projectile:init(entity, damage)
 	self:super(entity.x + (entity.w / 2 - self.w / 2) * entity.dir, entity.y)
 	self.vx = 4 * entity.dir
 	self.damageValue = damage
+	self.damagesHero = not entity.isHero
 end
 
 function Projectile:update()
 	Entity.update(self)
-	local target, axis, offset = map:firstCollisionWithBox(self:updateBB(), enemies)
+	local targets = map:getEntityList(self.damagesHero)
+	local target, axis, offset = map:firstCollisionWithBox(self:updateBB(), targets)
 	if axis == "x" then
 		self:onCollide(axis, offset, target)
 	end
 end
 
 function Projectile:onCollide(axis, direction, target)
-	if axis == "x" and not target or not target.isHero then -- TODO check for correct target
+	if axis == "x" then
 		self.alive = false
 		if target then
 			target:damage(self.damageValue)
