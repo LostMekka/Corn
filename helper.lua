@@ -65,3 +65,38 @@ function updateList(x, removalPredicate)
 		end
 	end
 end
+
+
+function rayBoxIntersection(ox, oy, dx, dy, box)
+
+	if dx > 0 and ox <= box[1] then
+		local f = (box[1] - ox) / dx
+		local y = oy + dy * f
+		if box[2] <= y and y <= box[2] + box[4] then
+			return f
+		end
+	elseif dx < 0 and ox >= box[1] + box[3] then
+		local f = (box[1] + box[3] - ox) / dx
+		local y = oy + dy * f
+		if box[2] <= y and y <= box[2] + box[4] then
+			return f
+		end
+	end
+
+	if dy > 0 and oy <= box[2] then
+		local f = (box[2] - oy) / dy
+		local x = ox + dx * f
+		if box[1] <= x and x <= box[1] + box[3] then
+			return f
+		end
+	elseif dy < 0 and oy >= box[2] + box[4] then
+		local f = (box[2] + box[4] - oy) / dy
+		local x = ox + dx * f
+		if box[1] <= x and x <= box[1] + box[3] then
+			return f
+		end
+	end
+
+	return false
+end
+
