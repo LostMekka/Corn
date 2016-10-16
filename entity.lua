@@ -206,6 +206,16 @@ function Entity:draw()
 	end
 end
 
+function Entity:knockback(otherEntity, force)
+	force = force or 1
+	local dir = 1
+	if self.x < otherEntity.x then
+		dir = -dir
+	end
+	self.vx = force * dir * 3
+	self.vy = force * -2
+end
+
 function Entity:action_meleeAttack(box, damage, hitCallback)
 	local targets = map:getEntityList(not self.isHero)
 	local target = map:firstCollisionWithBox(box, targets)

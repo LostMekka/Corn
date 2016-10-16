@@ -48,12 +48,7 @@ function Enemy:update()
 	-- deal touch damage
 	if self.touchDamage then
 		self:action_meleeAttack(self:updateBB(), self.touchDamage, function(target)
-			local dir = 1
-			if target.x < self.x then
-				dir = -dir
-			end
-			target.vx = dir * 3
-			target.vy = -2
+			target:knockback(self)
 		end)
 	end
 end
