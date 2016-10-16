@@ -1,11 +1,11 @@
 Menu = Object:new {
-	heartImg = G.newImage("media/heart.png"),
 	-- state may be "start", "over", "pause", "playing", "win"
 	state = "start",
 }
 function Menu:init()
 	self.state = "start"
 	self.aboutToWin = false
+	self.selectedIndex = 0
 end
 
 function Menu:isPlaying()
@@ -23,7 +23,7 @@ function Menu:gameOver()
 end
 
 
-local menuEntries = {
+Menu.menuEntries = {
 	{
 		text = "Start",
 		show = function()
@@ -40,6 +40,15 @@ local menuEntries = {
 		end,
 		action = function()
 			menu.state = "playing"
+		end,
+	},
+	{
+		text = "Restart",
+		show = function()
+			return menu.state == "pause" or menu.state == "over"
+		end,
+		action = function()
+			initGame()
 		end,
 	},
 --	{
@@ -59,54 +68,54 @@ local menuEntries = {
 		end,
 	}
 }
-local selectedIndex = 0
 
-local function changeSelectedIndex(dir)
+function Menu:changeSelectedIndex(dir)
 	local rangeEnd
 	if dir > 0 then
-		rangeEnd = #menuEntries
+		rangeEnd = #self.menuEntries
 	else
 		rangeEnd = 1
 	end
-	for i = selectedIndex  + dir, rangeEnd, dir do
-		local entry = menuEntries[i]
+	for i = self.selectedIndex + dir, rangeEnd, dir do
+		local entry = self.menuEntries[i]
 		if entry and entry.show() then
-			selectedIndex = i
+			self.selectedIndex = i
 			return
 		end
 	end
 
 	-- we didn't find a matching entry, start again on the opposite end
 	if dir > 0 then
-		selectedIndex = 0
+		self.selectedIndex = 0
 	else
-		selectedIndex = #menuEntries + 1
+		self.selectedIndex = #self.menuEntries + 1
 	end
-	changeSelectedIndex(dir)
+	self:changeSelectedIndex(dir)
 end
 
 local function printCenteredText(text, top)
 	G.printf(text, 0, top, 400, "center")
 end
 
-local w, h = 300, 200
+local w, h = 150, 200
 function Menu:draw()
 	if self.state == "playing" then
 		return
 	end
 
-	if selectedIndex == 0 then
-		changeSelectedIndex(1)
+	if self.selectedIndex == 0 then
+		self:changeSelectedIndex(1)
 	end
 
-	local color = {G.getColor()}
-	G.setColor(0, 0, 0, 229)
-	G.rectangle("fill", (W - w ) / 2, (H - h) / 2, w, h, 10, 10)
-	G.setColor(unpack(color))
+	local color -- = {G.getColor() }
+	-- background
+--	G.setColor(0, 0, 0, 229)
+--	G.rectangle("fill", (W - w ) / 2, (H - h) / 2, w, h, 10, 10)
+--	G.setColor(unpack(color))
 
 	local headline, subHeadline = "", ""
 	if self.state == "start" then
-		headline = "START"
+		headline = "Corn"
 		subHeadline = ""
 	elseif self.state == "over" then
 		headline = "GAME OVER"
@@ -129,11 +138,11 @@ function Menu:draw()
 	printCenteredText(subHeadline, top + 40)
 
 	top = top + 75
-	for entryIndex, entry in ipairs(menuEntries) do
+	for entryIndex, entry in ipairs(self.menuEntries) do
 		if entry.show() then
-			if entryIndex == selectedIndex then
+			if entryIndex == self.selectedIndex then
 				color = {G.getColor()}
-				G.setColor(25, 25, 25, 255)
+				G.setColor(25, 25, 25, 178)
 				G.rectangle("fill", (W - w + 30 ) / 2, top - 5, w - 30, 20)
 				G.setColor(unpack(color))
 			end
@@ -145,22 +154,18 @@ function Menu:draw()
 	end
 end
 
-function Menu:init()
-	self.selected = 1
-end
-
 function Menu:keypressed(key)
 	if self.state == "playing" then
 		return true
 	end
 
 	if key == "down" then
-		changeSelectedIndex(1)
+		self:changeSelectedIndex(1)
 	elseif key == "up" then
-		changeSelectedIndex(-1)
+		self:changeSelectedIndex(-1)
 	elseif key == "return" then
-		menuEntries[selectedIndex].action()
-		selectedIndex = 0
+		self.menuEntries[self.selectedIndex].action()
+		self.selectedIndex = 0
 	elseif key == "p" or key == "escape" then
 		return true
 	end
