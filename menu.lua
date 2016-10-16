@@ -1,8 +1,13 @@
 Menu = Object:new {
 	heartImg = G.newImage("media/heart.png"),
-	-- state may be "start", "over", "pause", "playing", ...
+	-- state may be "start", "over", "pause", "playing", "win"
 	state = "start",
 }
+function Menu:init()
+	self.state = "start"
+	self.aboutToWin = false
+end
+
 function Menu:isPlaying()
 	return self.state == "playing"
 end
@@ -109,6 +114,9 @@ function Menu:draw()
 	elseif self.state == "pause" then
 		headline = "PAUSE"
 		subHeadline = "Press P to continue"
+	elseif self.state == "win" then
+        headline = "YOU WIN!"
+	    subHeadline = "Donald Trump is defeated.\nThe world is now a better place."
 	else
 		return
 	end

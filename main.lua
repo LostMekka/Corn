@@ -6,6 +6,7 @@ debugLines = {}
 
 G = love.graphics
 D = love.keyboard.isDown
+A = love.audio
 
 -- init technical stuff
 W = 400
@@ -14,8 +15,6 @@ G.setDefaultFilter("nearest", "nearest")
 canvas = G.newCanvas(W, H)
 love.window.setMode(W * 2, H * 2, {resizable = true})
 love.mouse.setVisible(false)
-
-
 
 
 -- require stuff
@@ -117,6 +116,10 @@ camera = Camera(map.objects.player.x, map.objects.player.y)
 menu = Menu()
 
 
+song = A.newSource("media/music_001.mp3")
+A.play(song)
+
+
 function love.update()
 	if not menu:isPlaying() then
 		updateList(particles)
@@ -130,6 +133,14 @@ function love.update()
 	updateList(enemies)
 	updateList(projectiles)
 	updateList(particles)
+
+    if #enemies == 0 and not menu.aboutToWin then
+        menu.aboutToWin = true
+		-- FIXME
+        TimeInterval(120, function()
+            menu.state = "win"
+    	end)
+    end
 
 	updateTimers()
 end
@@ -196,6 +207,8 @@ function love.keypressed(key)
 			menu:togglePause()
 		elseif key == "f11" then
 			DEBUG = not DEBUG
+		elseif key == "backspace" then
+		    for _, e in ipairs(enemies) do e:kill() end
 		end
 	end
 end
