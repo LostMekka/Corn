@@ -17,13 +17,17 @@ function TimeInterval:init(duration, callback)
 	table.insert(timers, self)
 end
 
+function TimeInterval:isRunning()
+	return not self.destroyed
+end
+
 function TimeInterval:update()
 	if self.destroyed then
 		return
 	end
 	self.currentTime = self.currentTime + 1
 	if self.currentTime >= self.duration then
-		if self.callback() then
+		if self.callback and self.callback() then
 			self.currentTime = 0
 		else
 			self:destroy()
