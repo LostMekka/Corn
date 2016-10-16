@@ -15,7 +15,9 @@ gameState = {
 	start = true,
 	paused = false,
 	over = false,
-	isMenu = function() return gameState.start or gameState.paused or gameState.over end,
+	win = false,
+	aboutToWin = false,
+	isMenu = function() return gameState.start or gameState.paused or gameState.over or gameState.win end,
 }
 
 -- debug stuff
@@ -111,6 +113,13 @@ function love.update()
 	updateList(projectiles)
 	updateList(particles)
 
+    if #enemies == 0 and not gameState.aboutToWin then
+        gameState.aboutToWin = true
+        TimeInterval(120, function()
+            gameState.win = true	
+    	end)
+    end
+
 	updateTimers()
 end
 
@@ -176,6 +185,8 @@ function love.keypressed(key)
 			gameState.paused = not gameState.paused
 		elseif key == "f11" then
 			DEBUG = not DEBUG
+		elseif key == "backspace" then
+		    for _, e in ipairs(enemies) do e:kill() end
 		end
 	end
 end

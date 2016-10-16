@@ -91,6 +91,9 @@ function Menu:draw()
 	elseif gameState.paused	then
 		headline = "PAUSE"
 		subHeadline = "Press P to continue"
+	elseif gameState.win then
+        headline = "YOU WIN!"
+	    subHeadline = "Donald Trump is defeated.\nThe world is now a better place."
 	else
 		return
 	end
