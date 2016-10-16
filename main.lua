@@ -12,8 +12,12 @@ canvas = G.newCanvas(W, H)
 love.window.setMode(W * 2, H * 2, {resizable = true})
 love.mouse.setVisible(false)
 gameState = {
+	start = true,
 	paused = false,
 	over = false,
+	win = false,
+	aboutToWin = false,
+	isMenu = function() return gameState.start or gameState.paused or gameState.over or gameState.win end,
 }
 
 -- debug stuff
@@ -31,7 +35,7 @@ require "officer"
 require "hero"
 require "projectile"
 require "particle"
-
+require "menu"
 
 Camera = Object:new()
 function Camera:init(x, y)
@@ -93,9 +97,10 @@ enemies = map.objects.enemies
 projectiles = map.objects.projectiles
 particles = {}
 camera = Camera(map.objects.player.x, map.objects.player.y)
+menu = Menu()
 
 function love.update()
-	if gameState.paused or gameState.over then
+	if gameState:isMenu() then
 		updateList(particles)
 		return
 	end
@@ -107,6 +112,13 @@ function love.update()
 	updateList(enemies)
 	updateList(projectiles)
 	updateList(particles)
+
+    if #enemies == 0 and not gameState.aboutToWin then
+        gameState.aboutToWin = true
+        TimeInterval(120, function()
+            gameState.win = true	
+    	end)
+    end
 
 	updateTimers()
 end
@@ -147,24 +159,7 @@ function love.draw()
 		love.graphics.print('Projectiles: ' .. #projectiles, 0, 30)
 	end
 
-
-	do -- game state printing
-		local bigText, smallText
-		if gameState.over then
-			bigText = "GAME OVER"
-			smallText = "The world is doomed"
-		elseif gameState.paused	then
-			bigText = "PAUSE"
-			smallText = "Press P to continue"
-		end
-		if bigText then
-			love.graphics.setNewFont(30)
-			love.graphics.printf(bigText, 0, 70, 400, "center")
-			love.graphics.setNewFont()
-			love.graphics.printf(smallText or "", 0, 100, 400, "center")
-		end
-	end
-
+	menu:draw()
 
 	-- draw canvas independent of resolution
 	local w = G.getWidth()
@@ -183,13 +178,15 @@ end
 
 
 function love.keypressed(key)
-	if key == "escape" then
-		love.event.quit()
-	elseif key == "p" then
-		gameState.paused = not gameState.paused
-	elseif key == "s" then
-		table.insert(projectiles, Projectile(hero, 1))
-	elseif key == "f11" then
-		DEBUG = not DEBUG
+	if menu:keypressed(key) then
+		if key == "escape" then
+			love.event.quit()
+		elseif key == "p" then
+			gameState.paused = not gameState.paused
+		elseif key == "f11" then
+			DEBUG = not DEBUG
+		elseif key == "backspace" then
+		    for _, e in ipairs(enemies) do e:kill() end
+		end
 	end
 end
