@@ -16,18 +16,22 @@ function Enemy:init(x, y)
 	local onFinishedJumping, onStartJumping
 	onFinishedJumping = function()
 		self.input.jump = false
-		TimeInterval(love.math.random(300) + 60, onStartJumping)
+		if not self.dead then
+			TimeInterval(love.math.random(300) + 60, onStartJumping)
+		end
 		return false
 	end
 	onStartJumping = function()
-		self.input.jump = true
-		TimeInterval(love.math.random(20) + 10, onFinishedJumping)
+		if self.alive then
+			self.input.jump = true
+			TimeInterval(love.math.random(20) + 10, onFinishedJumping)
+		end
 		return false
 	end
 	onFinishedJumping()
 --	TimeInterval(love.math.random(5) + 5, function()
 --		self:action_shoot()
---		return true
+--		return self.alive
 --	end)
 end
 
