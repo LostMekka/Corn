@@ -201,6 +201,10 @@ function Entity:move(input)
 end
 
 function Entity:draw()
+	if not self.alive then
+		return
+	end
+
 	if self.img then
 		local s = self.img:getHeight()
 		G.draw(self.img, self.quads[self.frame], self.x, self.y, 0, self.dir, 1, s / 2, s / 2)

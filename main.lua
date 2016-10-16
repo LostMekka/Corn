@@ -94,6 +94,7 @@ camera = Camera(map.objects.player.x, map.objects.player.y)
 
 function love.update()
 	if gameState.paused or gameState.over then
+		updateList(particles)
 		return
 	end
 
@@ -101,9 +102,9 @@ function love.update()
 	hero:update()
 	camera:update()
 
-	for _, list in ipairs({enemies, projectiles, particles}) do
-		updateList(list)
-	end
+	updateList(enemies)
+	updateList(projectiles)
+	updateList(particles)
 
 	updateTimers()
 end
