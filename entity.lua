@@ -15,6 +15,7 @@ Entity = Object:new {
 	JUMP_CUTOFF_SPEED = 1,
 	GRAVITY_FACTOR    = 1,
 	IGNORES_GRAVITY   = false,
+	animation = {idle = {1}},
 }
 
 
@@ -61,6 +62,10 @@ function Entity:init(x, y)
 	self.alive = true
 	self.box = {}
 	self:updateBB()
+	self.animationState = "idle"
+
+	-- animation timer
+	self.animationCounter = 0;
 end
 
 
@@ -79,17 +84,33 @@ end
 function Entity:handleAttacks(input)
 end
 
+function Entity:setAnimationState(state)
+	if self.animationState ~= state then
+		self.animationState = state
+		self.animationCounter = -1;
+		self:updateAnimation()
+	end
+end
+
+function Entity:updateAnimation()
+	local ani = self.animation[self.animationState]
+	local frameLength = ani.time or 10
+	self.animationCounter = (self.animationCounter + 1) % (frameLength * #ani)
+	self.frame = ani[math.floor(self.animationCounter / frameLength) + 1]
+end
 
 function Entity:update()
 	local input = self:getInput()
-
 	self:handleAttacks(input)
 
 	if self.actionState then
 		self.actionState:update(self, input)
 	else
 		self:move(input)
+		self:setAnimationState(input.moveX == 0 and "idle" or "move")
 	end
+
+	self:updateAnimation()
 end
 
 
@@ -204,9 +225,6 @@ function Entity:move(input)
 
 	self.jump = input.jump
 	self.dir = dir
-
-	-- animation
-	self.frame = 1
 end
 
 function Entity:draw()
@@ -311,8 +329,8 @@ function UnicornThrust:update(entity, input)
 
 
 	-- animation
-	entity.frame = 1
+	entity:setAnimationState("thrust1")
 	if self.tick <= 10 then
-		entity.frame = 2
+		entity:setAnimationState("thrust2")
 	end
 end

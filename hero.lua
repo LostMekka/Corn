@@ -8,6 +8,12 @@ Hero = Entity:new {
 	MAX_WALK_SPEED    = 2,
 	JUMP_START_SPEED  = 4.6,
 	JUMP_CUTOFF_SPEED = 1,
+	animation = {
+		idle = {1,},
+		move = {1, 2,},
+		thrust1 = {2,},
+		thrust2 = {3,},
+	}
 }
 
 

@@ -67,6 +67,7 @@ initGame()
 
 
 song = A.newSource("media/music_001.mp3")
+song:setLooping(true)
 A.play(song)
 
 heartImg = G.newImage("media/heart.png")
