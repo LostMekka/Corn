@@ -3,6 +3,7 @@
 
 G = love.graphics
 D = love.keyboard.isDown
+A = love.audio
 
 -- init technical stuff
 W = 400
@@ -98,6 +99,11 @@ projectiles = map.objects.projectiles
 particles = {}
 camera = Camera(map.objects.player.x, map.objects.player.y)
 menu = Menu()
+
+
+song = A.newSource("media/music_001.mp3")
+A.play(song)
+
 
 function love.update()
 	if gameState:isMenu() then
