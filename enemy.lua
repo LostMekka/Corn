@@ -1,6 +1,6 @@
 Enemy = Entity:new {
 	attackStrategy = "meelee",
-	sightRange = 6 * TILE_SIZE,
+	sightRange = 10,
 	aiState = "wander",
 	MAX_WALK_SPEED = 1,
 	touchDamage = 10,
@@ -54,7 +54,11 @@ function Enemy:update()
 end
 
 function Enemy:updateSight()
-
+	local dx = hero.x - self.x
+	local dy = hero.y - self.y
+	self.seesHero = hero.alive
+		and (dx*dx + dy*dy) <= self.sightRange*self.sightRange*TILE_SIZE*TILE_SIZE
+		and map:rayIntersection(self.x, self.y, hero.x, hero.y) == 1
 end
 
 function Enemy:updateWanderState()

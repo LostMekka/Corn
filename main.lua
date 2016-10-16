@@ -16,6 +16,9 @@ gameState = {
 	over = false,
 }
 
+-- debug stuff
+debugLines = {}
+
 -- require stuff
 require "helper"
 require "timeinterval"
@@ -126,6 +129,11 @@ function love.draw()
 	for _, p in ipairs(projectiles) do
 		p:draw()
 	end
+
+	for _, line in ipairs(debugLines) do
+		G.line(line[1], line[2], line[3], line[4])
+	end
+	debugLines = {}
 
 	G.origin()
 

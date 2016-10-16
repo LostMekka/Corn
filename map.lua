@@ -152,15 +152,28 @@ function Map:firstCollisionWithBox(box, targetList)
 	end
 end
 
-function Map:rayIntersection(ox, oy, dx, dy)
-	local d
-	for _, b in ipairs(self.boxes) do
-		if not b.ow then
+function Map:rayIntersection(x1, y1, x2, y2)
+	local minX = math.floor(math.min(x1, x2) / TILE_SIZE)
+	local maxX = math.floor(math.max(x1, x2) / TILE_SIZE) + 1
+	local minY = math.floor(math.min(y1, y2) / TILE_SIZE)
+	local maxY = math.floor(math.max(y1, y2) / TILE_SIZE) + 1
 
-			local e = rayBoxIntersection(ox, oy, dx, dy, b)
-			if e and (not d or e < d) then d = e end
+	local box = { w = TILE_SIZE, h = TILE_SIZE }
+	local d = 1
+
+	for x = minX, maxX do
+		for y = minY, maxY do
+			local cell = self.tile_data[y * self.w + x + 1]
+			if cell and cell > 0 and cell <= 128 then
+				box.x = x * TILE_SIZE
+				box.y = y * TILE_SIZE
+				local ans = rayBoxIntersection(x1, y1, x2-x1, y2-y1, box)
+				if ans == false then ans = 1 end
+				d = math.min(d, ans)
+			end
 		end
 	end
+
 	return d
 end
 

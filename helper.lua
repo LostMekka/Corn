@@ -71,30 +71,30 @@ end
 
 function rayBoxIntersection(ox, oy, dx, dy, box)
 
-	if dx > 0 and ox <= box[1] then
-		local f = (box[1] - ox) / dx
+	if dx > 0 and ox <= box.x then
+		local f = (box.x - ox) / dx
 		local y = oy + dy * f
-		if box[2] <= y and y <= box[2] + box[4] then
+		if box.y <= y and y <= box.y + box.h then
 			return f
 		end
-	elseif dx < 0 and ox >= box[1] + box[3] then
-		local f = (box[1] + box[3] - ox) / dx
+	elseif dx < 0 and ox >= box.x + box.w then
+		local f = (box.x + box.w - ox) / dx
 		local y = oy + dy * f
-		if box[2] <= y and y <= box[2] + box[4] then
+		if box.y <= y and y <= box.y + box.h then
 			return f
 		end
 	end
 
-	if dy > 0 and oy <= box[2] then
-		local f = (box[2] - oy) / dy
+	if dy > 0 and oy <= box.y then
+		local f = (box.y - oy) / dy
 		local x = ox + dx * f
-		if box[1] <= x and x <= box[1] + box[3] then
+		if box.x <= x and x <= box.x + box.w then
 			return f
 		end
-	elseif dy < 0 and oy >= box[2] + box[4] then
-		local f = (box[2] + box[4] - oy) / dy
+	elseif dy < 0 and oy >= box.y + box.h then
+		local f = (box.y + box.h - oy) / dy
 		local x = ox + dx * f
-		if box[1] <= x and x <= box[1] + box[3] then
+		if box.x <= x and x <= box.x + box.w then
 			return f
 		end
 	end
