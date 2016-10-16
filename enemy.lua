@@ -17,14 +17,14 @@ function Enemy:init(x, y)
 	onFinishedJumping = function()
 		self.input.jump = false
 		if not self.dead then
-			TimeInterval(love.math.random(300) + 60, onStartJumping)
+			TimeInterval(love.math.random(300) + 60, onStartJumping, self)
 		end
 		return false
 	end
 	onStartJumping = function()
 		if self.alive then
 			self.input.jump = true
-			TimeInterval(love.math.random(20) + 10, onFinishedJumping)
+			TimeInterval(love.math.random(20) + 10, onFinishedJumping, self)
 		end
 		return false
 	end

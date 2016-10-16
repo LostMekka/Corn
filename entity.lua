@@ -1,4 +1,5 @@
 Entity = Object:new {
+	isHero = false,
 	w = 32,
 	h = 32,
 	-- global constants
@@ -32,9 +33,16 @@ function Entity:damage(damageValue)
 	if self.life > 0 then
 		self.alive = false
 		makeBlood(self)
+		self:onDeath()
 	end
 end
 
+function Entity:kill()
+	self:damage(self.life)
+end
+
+function Entity:onDeath()
+end
 
 function Entity:init(x, y)
 	self:initResources()
@@ -45,7 +53,6 @@ function Entity:init(x, y)
 	self.vy = 0
 	self.dir = 1
 	self.frame = 1
-	self.isHero = false
 	self.movementState = "air"
 	self.actionState = nil
 	self.life = 100

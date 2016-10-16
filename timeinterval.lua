@@ -9,7 +9,8 @@ end
 
 TimeInterval = Object:new()
 
-function TimeInterval:init(duration, callback, ...)
+function TimeInterval:init(duration, callback, entity, ...)
+	self.entity = entity
 	self.currentTime = 0
 	self.duration = duration
 	self.callback = callback
@@ -23,6 +24,10 @@ function TimeInterval:isRunning()
 end
 
 function TimeInterval:update()
+	if self.entity and not self.entity.alive then
+		self:destroy()
+		return
+	end
 	if self.destroyed then
 		return
 	end

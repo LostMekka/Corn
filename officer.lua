@@ -13,7 +13,7 @@ function Officer:init(x, y)
 		return false
 	end
 	initShotTimer = function()
-		TimeInterval(love.math.random(30) + 60, shootCallback)
+		TimeInterval(love.math.random(30) + 60, shootCallback, self)
 	end
 	initShotTimer()
 end
