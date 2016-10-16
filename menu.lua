@@ -6,6 +6,7 @@ Menu = Object:new {
 function Menu:init()
 	self.state = "start"
 	self.aboutToWin = false
+	self.selectedIndex = 0
 end
 
 function Menu:isPlaying()
@@ -23,7 +24,7 @@ function Menu:gameOver()
 end
 
 
-local menuEntries = {
+Menu.menuEntries = {
 	{
 		text = "Start",
 		show = function()
@@ -68,30 +69,29 @@ local menuEntries = {
 		end,
 	}
 }
-local selectedIndex = 0
 
-local function changeSelectedIndex(dir)
+function Menu:changeSelectedIndex(dir)
 	local rangeEnd
 	if dir > 0 then
-		rangeEnd = #menuEntries
+		rangeEnd = #self.menuEntries
 	else
 		rangeEnd = 1
 	end
-	for i = selectedIndex  + dir, rangeEnd, dir do
-		local entry = menuEntries[i]
+	for i = self.selectedIndex + dir, rangeEnd, dir do
+		local entry = self.menuEntries[i]
 		if entry and entry.show() then
-			selectedIndex = i
+			self.selectedIndex = i
 			return
 		end
 	end
 
 	-- we didn't find a matching entry, start again on the opposite end
 	if dir > 0 then
-		selectedIndex = 0
+		self.selectedIndex = 0
 	else
-		selectedIndex = #menuEntries + 1
+		self.selectedIndex = #self.menuEntries + 1
 	end
-	changeSelectedIndex(dir)
+	self:changeSelectedIndex(dir)
 end
 
 local function printCenteredText(text, top)
@@ -104,8 +104,8 @@ function Menu:draw()
 		return
 	end
 
-	if selectedIndex == 0 then
-		changeSelectedIndex(1)
+	if self.selectedIndex == 0 then
+		self:changeSelectedIndex(1)
 	end
 
 	local color -- = {G.getColor() }
@@ -139,9 +139,9 @@ function Menu:draw()
 	printCenteredText(subHeadline, top + 40)
 
 	top = top + 75
-	for entryIndex, entry in ipairs(menuEntries) do
+	for entryIndex, entry in ipairs(self.menuEntries) do
 		if entry.show() then
-			if entryIndex == selectedIndex then
+			if entryIndex == self.selectedIndex then
 				color = {G.getColor()}
 				G.setColor(25, 25, 25, 178)
 				G.rectangle("fill", (W - w + 30 ) / 2, top - 5, w - 30, 20)
@@ -155,22 +155,18 @@ function Menu:draw()
 	end
 end
 
-function Menu:init()
-	self.selected = 1
-end
-
 function Menu:keypressed(key)
 	if self.state == "playing" then
 		return true
 	end
 
 	if key == "down" then
-		changeSelectedIndex(1)
+		self:changeSelectedIndex(1)
 	elseif key == "up" then
-		changeSelectedIndex(-1)
+		self:changeSelectedIndex(-1)
 	elseif key == "return" then
-		menuEntries[selectedIndex].action()
-		selectedIndex = 0
+		self.menuEntries[self.selectedIndex].action()
+		self.selectedIndex = 0
 	elseif key == "p" or key == "escape" then
 		return true
 	end
