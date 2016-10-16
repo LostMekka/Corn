@@ -21,8 +21,11 @@ end
 Blood = Particle:new {
 	name = "blood"
 }
-function makeBlood(entity)
-	for _ = 1, 30 do
+function makeBlood(entity, n)
+    if n == nil then
+        n = 30
+    end
+	for _ = 1, n do
 		local p = Blood(
 			entity.x + (math.random() - 0.5) * entity.w,
 			entity.y + (math.random() - 0.5) * entity.h)
