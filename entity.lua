@@ -31,6 +31,7 @@ end
 
 function Entity:damage(damageValue)
 	self.life = self.life - damageValue
+	makeBlood(self, 3)
 	if self.life <= 0 then
 		self.alive = false
 		makeBlood(self)
