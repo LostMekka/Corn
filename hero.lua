@@ -1,4 +1,5 @@
 Hero = Entity:new {
+	isHero = true,
 	name = "hero",
 	w = 20,
 	h = 24,
@@ -12,7 +13,6 @@ Hero = Entity:new {
 
 function Hero:init(x, y)
 	self:super(x, y)
-	self.isHero = true
 end
 
 function Hero:update()

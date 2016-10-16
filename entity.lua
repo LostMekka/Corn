@@ -29,7 +29,10 @@ end
 
 function Entity:damage(damageValue)
 	self.life = self.life - damageValue
-	self.alive = self.life > 0
+	if self.life > 0 then
+		self.alive = false
+		makeBlood(self)
+	end
 end
 
 
@@ -279,12 +282,14 @@ function UnicornThrust:update(entity, input)
 			if dx ~= 0 then
 				e:knockback(entity)
 				e:damage(25)
-				entity:knockback(e, 0.2)
+
+				-- knock back player a bit
 				entity.x = entity.x + dx
+				entity:knockback(e, 0.2)
+				-- shorten attack
+				self.tick = self.tick + 1
 			end
 		end
-
-
 
 
 	else
