@@ -42,6 +42,15 @@ local menuEntries = {
 			menu.state = "playing"
 		end,
 	},
+	{
+		text = "Restart",
+		show = function()
+			return menu.state == "pause" or menu.state == "over"
+		end,
+		action = function()
+			initGame()
+		end,
+	},
 --	{
 --		text = "Credits",
 --		show = function()
@@ -89,7 +98,7 @@ local function printCenteredText(text, top)
 	G.printf(text, 0, top, 400, "center")
 end
 
-local w, h = 300, 200
+local w, h = 150, 200
 function Menu:draw()
 	if self.state == "playing" then
 		return
@@ -99,14 +108,15 @@ function Menu:draw()
 		changeSelectedIndex(1)
 	end
 
-	local color = {G.getColor()}
-	G.setColor(0, 0, 0, 229)
-	G.rectangle("fill", (W - w ) / 2, (H - h) / 2, w, h, 10, 10)
-	G.setColor(unpack(color))
+	local color -- = {G.getColor() }
+	-- background
+--	G.setColor(0, 0, 0, 229)
+--	G.rectangle("fill", (W - w ) / 2, (H - h) / 2, w, h, 10, 10)
+--	G.setColor(unpack(color))
 
 	local headline, subHeadline = "", ""
 	if self.state == "start" then
-		headline = "START"
+		headline = "Corn"
 		subHeadline = ""
 	elseif self.state == "over" then
 		headline = "GAME OVER"
@@ -133,7 +143,7 @@ function Menu:draw()
 		if entry.show() then
 			if entryIndex == selectedIndex then
 				color = {G.getColor()}
-				G.setColor(25, 25, 25, 255)
+				G.setColor(25, 25, 25, 178)
 				G.rectangle("fill", (W - w + 30 ) / 2, top - 5, w - 30, 20)
 				G.setColor(unpack(color))
 			end

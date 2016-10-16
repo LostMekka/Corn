@@ -107,13 +107,16 @@ end
 
 
 -- instantiate stuff
-map = Map("media/map-01.json")
-hero = map.objects.player
-enemies = map.objects.enemies
-projectiles = map.objects.projectiles
-particles = {}
-camera = Camera(map.objects.player.x, map.objects.player.y)
-menu = Menu()
+function initGame()
+	map = Map("media/map-01.json")
+	hero = map.objects.player
+	enemies = map.objects.enemies
+	projectiles = map.objects.projectiles
+	particles = {}
+	camera = Camera(map.objects.player.x, map.objects.player.y)
+	menu = Menu()
+end
+initGame()
 
 
 song = A.newSource("media/music_001.mp3")
