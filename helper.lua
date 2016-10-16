@@ -56,9 +56,11 @@ end
 function updateList(x, removalPredicate)
 	removalPredicate = removalPredicate or defaultFilterPredicate
 	local i = 1
+	for _, b in ipairs(x) do
+		b:update()
+	end
 	for j, b in ipairs(x) do
 		x[j] = nil
-		b:update()
 		if not removalPredicate(b) then
 			x[i] = b
 			i = i + 1
