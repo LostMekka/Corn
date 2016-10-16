@@ -9,7 +9,8 @@ Projectile = Entity:new {
 	GRAVITY_FACTOR    = 0.025,
 }
 
-function Projectile:init(entity, damage)
+function Projectile:init(entity, damage, name)
+	self.name = name
 	self:super(entity.x + (entity.w / 2 - self.w / 2) * entity.dir, entity.y)
 	self.vx = 4 * entity.dir
 	self.damageValue = damage
@@ -23,6 +24,11 @@ function Projectile:update()
 	if axis == "x" then
 		self:onCollide(axis, offset, target)
 	end
+	if self.vx > 0 then
+		self.dir = 1
+	else
+		self.dir = -1
+	end
 end
 
 function Projectile:onCollide(axis, direction, target)
@@ -32,12 +38,5 @@ function Projectile:onCollide(axis, direction, target)
 			target:damage(self.damageValue)
 		end
 	end
-end
-
-function Projectile:draw()
-	G.rectangle("line",
-		self.x - self.w / 2,
-		self.y - self.h / 2,
-		self.w, self.h)
 end
 
