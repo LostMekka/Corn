@@ -44,7 +44,7 @@ function Map:init(filename)
 
 				for _, obj in ipairs(layer.objects) do
 					local x = obj.x + obj.width / 2
-					local y = obj.y + obj.height / 2
+					local y = obj.y + obj.height
 					if obj.name == "player" then
 						self.objects.player = Hero(x, y)
 					end
