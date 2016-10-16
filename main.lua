@@ -30,6 +30,7 @@ require "bodyguard"
 require "officer"
 require "hero"
 require "projectile"
+require "particle"
 
 
 Camera = Object:new()
@@ -88,6 +89,7 @@ map = Map("media/map-01.json")
 hero = map.objects.player
 enemies = map.objects.enemies
 projectiles = map.objects.projectiles
+particles = {}
 camera = Camera(map.objects.player.x, map.objects.player.y)
 
 function love.update()
@@ -99,7 +101,7 @@ function love.update()
 	hero:update()
 	camera:update()
 
-	for _, list in ipairs({enemies, projectiles}) do
+	for _, list in ipairs({enemies, projectiles, particles}) do
 		updateList(list)
 	end
 
@@ -123,12 +125,9 @@ function love.draw()
 	})
 
 	hero:draw()
-	for _, e in ipairs(enemies) do
-		e:draw()
-	end
-	for _, p in ipairs(projectiles) do
-		p:draw()
-	end
+	for _, e in ipairs(enemies) do e:draw() end
+	for _, p in ipairs(projectiles) do p:draw() end
+	for _, p in ipairs(particles) do p:draw() end
 
 	for _, line in ipairs(debugLines) do
 		G.line(line[1], line[2], line[3], line[4])
