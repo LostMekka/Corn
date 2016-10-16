@@ -1,9 +1,10 @@
 Bubble = Object:new {
-    x = 0,
-    y = 0,
-    w = 100,
-    alive = true,
-    text = "Bubble",
+    w       = 100,
+    baseXY  = { x = 0, y = 0 },
+    offsetX = 0,
+    offsetY = 0,
+    alive   = true,
+    text    = "Bubble",
 }
 
 function Bubble:init()
@@ -15,16 +16,22 @@ end
 
 function Bubble:draw()
     if not self.alive then return end
-    G.printf(self.text, self.x - self.w/2, self.y, self.w, "center")
+    G.printf(
+        self.text,
+        self.baseXY.x + self.offsetX - self.w/2,
+        self.baseXY.y + self.offsetY,
+        self.w,
+        "center")
 end
 
 
 
 function makeBubbleHero(hero)
     bubble = Bubble:new {
-        x = hero.x,
-        y = hero.y - hero.h*2,
-        text = "you",
+        offsetX = 0,
+        offsetY = -2*hero.h,
+        baseXY  = hero,
+        text    = "you",
     }
     
     table.insert(bubbles, bubble)
