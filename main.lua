@@ -59,26 +59,28 @@ function Camera:update()
 	self.y = math.max(self.y - 8, math.min(self.y + 8, self.ty))
 
 	-- room logic
---	local room = map:getRoomAt(hero.x, hero.y)
---	if not room then
---		return
---	end
---
---	if self.tx < room.x + 200 then
---		self.tx = room.x + 200
---	elseif self.tx > room.x + room.w - 200 then
---		self.tx = room.x + room.w - 200
---	end
---
---	if self.ty < room.y + 120 then
---		self.ty = room.y + 120
---	elseif self.ty > room.y + room.h - 120 then
---		self.ty = room.y + room.h - 120
---	end
---
---
---	self.x = math.max(self.x - 8, math.min(self.x + 8, self.tx))
---	self.y = math.max(self.y - 8, math.min(self.y + 8, self.ty))
+	local room = {
+		x = 0,
+		y = 0,
+		w = map.w * TILE_SIZE,
+		h = map.h * TILE_SIZE,
+	}
+
+	if self.tx < room.x + 200 then
+		self.tx = room.x + 200
+	elseif self.tx > room.x + room.w - 200 then
+		self.tx = room.x + room.w - 200
+	end
+
+	if self.ty < room.y + 120 then
+		self.ty = room.y + 120
+	elseif self.ty > room.y + room.h - 120 then
+		self.ty = room.y + room.h - 120
+	end
+
+
+	self.x = math.max(self.x - 8, math.min(self.x + 8, self.tx))
+	self.y = math.max(self.y - 8, math.min(self.y + 8, self.ty))
 
 end
 
@@ -112,7 +114,7 @@ end
 
 function love.draw()
 	G.setCanvas(canvas)
-	G.clear(40, 40, 40)
+	G.clear(0, 0, 0)
 
 	-- move camera
 	G.translate(-camera.x + W / 2, -camera.y + H / 2)
