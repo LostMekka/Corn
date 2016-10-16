@@ -49,7 +49,7 @@ function Entity:init(x, y)
 	self:initResources()
 
 	self.x = x
-	self.y = y
+	self.y = y - self.h / 2
 	self.vx = 0
 	self.vy = 0
 	self.dir = 1
