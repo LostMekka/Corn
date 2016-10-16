@@ -1,4 +1,3 @@
-local timers = {}
 local function timerPredicate(timer)
 	return timer.destroyed
 end

@@ -52,62 +52,9 @@ end
 
 
 
-
-Camera = Object:new()
-function Camera:init(x, y)
-	self.x = x
-	self.y = y
-	self:update()
-end
-function Camera:update()
-
-	self.tx = self.x
-	self.ty = self.y
-
-	if self.tx < hero.x - 70 then
-		self.tx = hero.x - 70
-	elseif self.tx > hero.x + 70 then
-		self.tx = hero.x + 70
-	end
-	if self.ty < hero.y - 40 then
-		self.ty = hero.y - 40
-	elseif self.ty > hero.y + 40 then
-		self.ty = hero.y + 40
-	end
-
-	self.x = math.max(self.x - 8, math.min(self.x + 8, self.tx))
-	self.y = math.max(self.y - 8, math.min(self.y + 8, self.ty))
-
-	-- room logic
-	local room = {
-		x = 0,
-		y = 0,
-		w = map.w * TILE_SIZE,
-		h = map.h * TILE_SIZE,
-	}
-
-	if self.tx < room.x + 200 then
-		self.tx = room.x + 200
-	elseif self.tx > room.x + room.w - 200 then
-		self.tx = room.x + room.w - 200
-	end
-
-	if self.ty < room.y + 120 then
-		self.ty = room.y + 120
-	elseif self.ty > room.y + room.h - 120 then
-		self.ty = room.y + room.h - 120
-	end
-
-
-	self.x = math.max(self.x - 8, math.min(self.x + 8, self.tx))
-	self.y = math.max(self.y - 8, math.min(self.y + 8, self.ty))
-
-end
-
-
-
 -- instantiate stuff
 function initGame()
+	timers = {}
 	map = Map("media/map-01.json")
 	hero = map.objects.player
 	enemies = map.objects.enemies
