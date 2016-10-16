@@ -1,6 +1,6 @@
 Voter = Enemy:new {
+	w = 16,
 	h = 32,
-	w = 18,
 	name = "voter"
 }
 function Voter:init(x, y)

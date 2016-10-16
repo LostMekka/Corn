@@ -2,23 +2,21 @@ Entity = Object:new {
 	w = 32,
 	h = 32,
 	-- global constants
-	GRAVITY = 0.2,
+	GRAVITY     = 0.2,
 	MAX_SPEED_X = 4,
 	MAX_SPEED_Y = 4,
 	-- Entity specific constants
-	ACCEL_FLOOR = 0.25,
-	ACCEL_AIR = 0.175,
-	MAX_WALK_SPEED = 2,
-	JUMP_START_SPEED = 4,
+	ACCEL_FLOOR       = 0.25,
+	ACCEL_AIR         = 0.175,
+	MAX_WALK_SPEED    = 2,
+	JUMP_START_SPEED  = 4,
 	JUMP_CUTOFF_SPEED = 1,
-	GRAVITY_FACTOR = 1,
+	GRAVITY_FACTOR    = 1,
 	IGNORES_GRAVITY   = false,
 }
 
 
 function Entity:initResources()
-	self.life = 100
-	self.alive = true
 	-- load image and quads
 	if not self.img and self.name then
 		self.img = G.newImage("media/" .. self.name .. ".png")
@@ -37,14 +35,18 @@ end
 
 function Entity:init(x, y)
 	self:initResources()
+
 	self.x = x
 	self.y = y
 	self.vx = 0
 	self.vy = 0
-	self.isHero = false
 	self.dir = 1
+	self.frame = 1
+	self.isHero = false
 	self.movementState = "air"
-	self.actionState = "none"
+	self.actionState = nil
+	self.life = 100
+	self.alive = true
 	self.box = {}
 	self:updateBB()
 end
@@ -62,9 +64,20 @@ function Entity:canWalkForward(distance)
 end
 
 
+function Entity:handleAttacks(input)
+end
+
+
 function Entity:update()
 	local input = self:getInput()
-	self:move(input)
+
+	self:handleAttacks(input)
+
+	if self.actionState then
+		self.actionState:update(self, input)
+	else
+		self:move(input)
+	end
 end
 
 
@@ -139,6 +152,10 @@ function Entity:move(input)
 			floor = true
 		end
 	end
+
+	self:updateBB()
+
+
 	if not floor and self.movementState == "floor" then
 		self.movementState = "air"
 	elseif floor then
@@ -176,26 +193,14 @@ function Entity:move(input)
 	self.jump = input.jump
 	self.dir = dir
 
-	-- animations
-	--	if  self.movementState == "floor" then
-	--		if input.moveX == 0 then
-	--			self.tick = 0
-	--			self.anim = self.anims.idle
-	--		else
-	--			self.tick = self.tick + 1
-	--			self.anim = self.anims.run
-	--		end
-	--	else
-	--		self.anim = self.anims.jump
-	--	end
-
-	self:updateBB()
+	-- animation
+	self.frame = 1
 end
 
 function Entity:draw()
 	if self.img then
 		local s = self.img:getHeight()
-		G.draw(self.img, self.quads[1], self.x, self.y, 0, self.dir, 1, s / 2, s / 2)
+		G.draw(self.img, self.quads[self.frame], self.x, self.y, 0, self.dir, 1, s / 2, s / 2)
 	end
 
 	if not self.img or DEBUG then
@@ -230,4 +235,43 @@ end
 function Entity:action_shoot(damage, projectileName)
 	damage = damage or 10
 	table.insert(projectiles, Projectile(self, damage, projectileName))
+end
+
+
+-- ACTION STATE STUFF --
+
+ActionState = Object:new()
+UnicornThrust = ActionState:new()
+function UnicornThrust:init(entity)
+	self.tick = 0
+
+	entity.vx = entity.dir * 2
+	entity.vy = 0
+
+end
+function UnicornThrust:update(entity, input)
+	self.tick = self.tick + 1
+	-- terminate
+	if self.tick > 20 then
+		entity.actionState = nil
+	end
+
+
+	if self.tick <= 10 then
+		entity.x = entity.x + entity.dir * 3
+
+		local dx = map:collision(entity:updateBB(), "x")
+		if dx ~= 0 then
+			entity.x = entity.x + dx
+		end
+	else
+		entity:move(entity.getDefaultInput())
+	end
+
+
+	-- animation
+	entity.frame = 1
+	if self.tick <= 10 then
+		entity.frame = 2
+	end
 end

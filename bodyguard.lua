@@ -1,6 +1,6 @@
 Bodyguard = Enemy:new {
 	h = 32,
-	w = 18,
+	w = 16,
 	name = "bodyguard"
 }
 
