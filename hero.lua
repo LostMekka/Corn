@@ -1,6 +1,6 @@
 Hero = Entity:new {
 	name = "hero",
-	w = 24,
+	w = 20,
 	h = 24,
 	ACCEL_FLOOR       = 0.25,
 	ACCEL_AIR         = 0.175,
@@ -17,7 +17,6 @@ end
 
 function Hero:update()
 	Entity.update(self)
-	self:handleAttacks(input)
 	if not self.alive then
 		gameState.over = true
 	end
@@ -32,7 +31,9 @@ end
 
 local function getMelee1Details(hero)
 	local w, h = 8, 8
-	local startX = hero.x + (hero.w / 2 --[[TODO BALANCING replace with   + w / 2   once attacks are handled by timer]] ) * hero.dir
+
+	-- TODO: BALANCING replace with   + w / 2   once attacks are handled by timer
+	local startX = hero.x + (hero.w / 2  ) * hero.dir
 	local startY = hero.y
 	local box = {
 		x = startX - w / 2,
@@ -43,18 +44,36 @@ local function getMelee1Details(hero)
 
 	return 20, box
 end
+
+
 function Hero:handleAttacks()
-	local damage, box
 
-	if D"c" then
-		damage, box = getMelee1Details(self)
-	elseif D"v" then
-
-	elseif not (damage and box) then
-		return
-	else
-		return
+	if self.movementState == "floor" then
+		self.isAirUnicornThrustUsedUp = false
 	end
 
-	self:action_meleeAttack(box, damage)
+	if D"c" and not self.actionState then
+		if self.isAirUnicornThrustUsedUp == false then
+			self.actionState = UnicornThrust(self)
+		end
+
+		if self.movementState == "air" then
+			self.isAirUnicornThrustUsedUp = true
+		end
+	end
+
+
+--	local damage, box
+--
+--	if D"c" then
+--		damage, box = getMelee1Details(self)
+--	elseif D"v" then
+--
+--	elseif not (damage and box) then
+--		return
+--	else
+--		return
+--	end
+--
+--	self:action_meleeAttack(box, damage)
 end
