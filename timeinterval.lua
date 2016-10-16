@@ -9,10 +9,11 @@ end
 
 TimeInterval = Object:new()
 
-function TimeInterval:init(duration, callback)
+function TimeInterval:init(duration, callback, ...)
 	self.currentTime = 0
 	self.duration = duration
 	self.callback = callback
+	self.arguments = {...}
 	self.destroyed = false
 	table.insert(timers, self)
 end
@@ -23,7 +24,7 @@ function TimeInterval:update()
 	end
 	self.currentTime = self.currentTime + 1
 	if self.currentTime >= self.duration then
-		if self.callback() then
+		if self.callback(unpack(self.arguments)) then
 			self.currentTime = 0
 		else
 			self:destroy()
