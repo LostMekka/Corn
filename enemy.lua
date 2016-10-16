@@ -31,10 +31,6 @@ function Enemy:init(x, y)
 	end)
 end
 
-function Enemy:onTouchDamageHit(target)
-
-end
-
 function Enemy:update()
 	-- perception
 	self:updateSight()
