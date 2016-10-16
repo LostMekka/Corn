@@ -94,6 +94,9 @@ function Menu:changeSelectedIndex(dir)
 end
 
 local function printCenteredText(text, top)
+	G.setColor(20, 20, 20)
+	G.printf(text, 1, top + 1, 400, "center")
+	G.setColor(255, 255, 255)
 	G.printf(text, 0, top, 400, "center")
 end
 
@@ -141,10 +144,11 @@ function Menu:draw()
 	for entryIndex, entry in ipairs(self.menuEntries) do
 		if entry.show() then
 			if entryIndex == self.selectedIndex then
-				color = {G.getColor()}
-				G.setColor(25, 25, 25, 178)
-				G.rectangle("fill", (W - w + 30 ) / 2, top - 5, w - 30, 20)
-				G.setColor(unpack(color))
+				G.setLineWidth(2)
+				G.setColor(20, 20, 20)
+				G.rectangle("line", (W - w + 30 ) / 2 + 1, top - 3 + 1, w - 30, 20)
+				G.setColor(255, 255, 255)
+				G.rectangle("line", (W - w + 30 ) / 2, top - 3, w - 30, 20)
 			end
 
 			printCenteredText(entry.text, top)
