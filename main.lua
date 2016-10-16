@@ -22,6 +22,9 @@ require "timeinterval"
 require "map"
 require "entity"
 require "enemy"
+require "voter"
+require "bodyguard"
+require "officer"
 require "hero"
 require "projectile"
 
@@ -103,7 +106,7 @@ end
 
 function love.draw()
 	G.setCanvas(canvas)
-	G.clear(0, 0, 0)
+	G.clear(40, 40, 40)
 
 	-- move camera
 	G.translate(-camera.x + W / 2, -camera.y + H / 2)

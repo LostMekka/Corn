@@ -51,6 +51,12 @@ function Map:init(filename)
 					if obj.name == "voter" then
 						table.insert(self.objects.enemies, Voter(x, y))
 					end
+					if obj.name == "officer" then
+						table.insert(self.objects.enemies, Officer(x, y))
+					end
+					if obj.name == "bodyguard" then
+						table.insert(self.objects.enemies, Bodyguard(x, y))
+					end
 				end
 			end
 
