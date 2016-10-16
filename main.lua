@@ -127,8 +127,11 @@ function love.draw()
 		p:draw()
 	end
 
+	G.origin()
+
+	love.graphics.printf('LP: ' .. math.max(hero.life or 0, 0), 0, 0, 400, "right")
+
 	if DEBUG then
-		G.origin()
 		love.graphics.print('FPS: ' .. love.timer.getFPS(), 0, 0)
 		love.graphics.print('Enemies: ' .. #enemies, 0, 15)
 		love.graphics.print('Projectiles: ' .. #projectiles, 0, 30)
@@ -145,7 +148,6 @@ function love.draw()
 			smallText = "Press P to continue"
 		end
 		if bigText then
-			G.origin()
 			love.graphics.setNewFont(30)
 			love.graphics.printf(bigText, 0, 70, 400, "center")
 			love.graphics.setNewFont()
