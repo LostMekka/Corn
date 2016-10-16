@@ -30,6 +30,7 @@ require "hero"
 require "projectile"
 require "particle"
 require "menu"
+require "bubble"
 
 
 
@@ -116,6 +117,10 @@ camera = Camera(map.objects.player.x, map.objects.player.y)
 menu = Menu()
 
 
+bubbles = {}
+makeBubbleHero(hero)
+
+
 song = A.newSource("media/music_001.mp3")
 A.play(song)
 
@@ -133,6 +138,7 @@ function love.update()
 	updateList(enemies)
 	updateList(projectiles)
 	updateList(particles)
+	updateList(bubbles)
 
     if #enemies == 0 and not menu.aboutToWin then
         menu.aboutToWin = true
@@ -165,6 +171,7 @@ function love.draw()
 	for _, e in ipairs(enemies) do e:draw() end
 	for _, p in ipairs(projectiles) do p:draw() end
 	for _, p in ipairs(particles) do p:draw() end
+	for _, b in ipairs(bubbles) do b:draw() end
 
 	for _, line in ipairs(debugLines) do
 		G.line(line[1], line[2], line[3], line[4])
