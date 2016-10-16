@@ -1,5 +1,6 @@
 Entity = Object:new {
 	isHero = false,
+	MAX_LIFE = 5,
 	w = 32,
 	h = 32,
 	-- global constants
@@ -30,7 +31,7 @@ end
 
 function Entity:damage(damageValue)
 	self.life = self.life - damageValue
-	if self.life > 0 then
+	if self.life <= 0 then
 		self.alive = false
 		makeBlood(self)
 		self:onDeath()
@@ -55,7 +56,7 @@ function Entity:init(x, y)
 	self.frame = 1
 	self.movementState = "air"
 	self.actionState = nil
-	self.life = 100
+	self.life = self.MAX_LIFE
 	self.alive = true
 	self.box = {}
 	self:updateBB()
@@ -248,7 +249,7 @@ function Entity:action_meleeAttack(box, damage, hitCallback)
 end
 
 function Entity:action_shoot(damage, projectileName)
-	damage = damage or 10
+	damage = damage or 1
 	table.insert(projectiles, Projectile(self, damage, projectileName))
 end
 
@@ -292,7 +293,7 @@ function UnicornThrust:update(entity, input)
 			local dx = collision(meleeBox, e.box, "x")
 			if dx ~= 0 then
 				e:knockback(entity)
-				e:damage(25)
+				e:damage(1)
 
 				-- knock back player a bit
 				entity.x = entity.x + dx

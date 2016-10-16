@@ -186,7 +186,7 @@ function love.keypressed(key)
 	elseif key == "p" then
 		gameState.paused = not gameState.paused
 	elseif key == "s" then
-		table.insert(projectiles, Projectile(hero, 10))
+		table.insert(projectiles, Projectile(hero, 1))
 	elseif key == "f11" then
 		DEBUG = not DEBUG
 	end

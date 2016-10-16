@@ -19,7 +19,7 @@ function Officer:init(x, y)
 end
 
 function Officer:shoot()
-	self:action_shoot(10, "bullet")
+	self:action_shoot(1, "bullet")
 end
 
 function Officer:update()

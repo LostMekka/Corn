@@ -3,7 +3,7 @@ Enemy = Entity:new {
 	sightRange = 10,
 	aiState = "wander",
 	MAX_WALK_SPEED = 1,
-	touchDamage = 10,
+	touchDamage = 1,
 }
 function Enemy:init(x, y)
 	Entity.init(self, x, y)
