@@ -30,7 +30,7 @@ Credits
 Concept:
 * Inosch
 * [LostMekka](http://wwwpub.zih.tu-dresden.de/~s0173474/LMS/)
-* <NEED REFERENCE!>
+* [Deconstruct](https://soundcloud.com/d3c0nstruct)
 * [madmason](https://github.com/madmason)
 * [2bt](https://github.com/2bt)
 
@@ -40,7 +40,7 @@ Graphics:
 * [LostMekka](http://wwwpub.zih.tu-dresden.de/~s0173474/LMS/)
 
 Music:
-* <NEED REFERENCE!>
+* [Deconstruct](https://soundcloud.com/d3c0nstruct)
 
 Level Design:
 * [2bt](https://github.com/2bt)
