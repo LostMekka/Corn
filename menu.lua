@@ -94,9 +94,9 @@ function Menu:changeSelectedIndex(dir)
 end
 
 local function printCenteredText(text, top)
-	G.setColor(20, 20, 20)
+	G.setColor(0.08, 0.08, 0.08)
 	G.printf(text, 1, top + 1, 400, "center")
-	G.setColor(255, 255, 255)
+	G.setColor(1, 1, 1)
 	G.printf(text, 0, top, 400, "center")
 end
 
@@ -112,7 +112,7 @@ function Menu:draw()
 
 	local color -- = {G.getColor() }
 	-- background
---	G.setColor(0, 0, 0, 229)
+--	G.setColor(0, 0, 0, 0.9)
 --	G.rectangle("fill", (W - w ) / 2, (H - h) / 2, w, h, 10, 10)
 --	G.setColor(unpack(color))
 
@@ -145,9 +145,9 @@ function Menu:draw()
 		if entry.show() then
 			if entryIndex == self.selectedIndex then
 				G.setLineWidth(2)
-				G.setColor(20, 20, 20)
+				G.setColor(0.08, 0.08, 0.08)
 				G.rectangle("line", (W - w + 30 ) / 2 + 1, top - 3 + 1, w - 30, 20)
-				G.setColor(255, 255, 255)
+				G.setColor(1, 1, 1)
 				G.rectangle("line", (W - w + 30 ) / 2, top - 3, w - 30, 20)
 			end
 

@@ -181,7 +181,7 @@ end
 
 function Map:draw(area)
 
-	G.setColor(255, 255, 255)
+	G.setColor(1, 1, 1)
 
 	local x1 = math.floor(area.x / TILE_SIZE)
 	local x2 = math.floor((area.x + area.w) / TILE_SIZE)
