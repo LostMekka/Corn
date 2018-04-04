@@ -83,7 +83,7 @@ function Map:collision(box, axis)
 		for y = y1, y2 do
 
 			local cell = self.tile_data[y * self.w + x + 1]
-			if cell and cell > 0 and cell <= 128 then
+			if cell and cell > 0 and cell <= 32 then
 
 				b.x = x * TILE_SIZE
 				b.y = y * TILE_SIZE
@@ -164,7 +164,7 @@ function Map:rayIntersection(x1, y1, x2, y2)
 	for x = minX, maxX do
 		for y = minY, maxY do
 			local cell = self.tile_data[y * self.w + x + 1]
-			if cell and cell > 0 and cell <= 128 then
+			if cell and cell > 0 and cell <= 32 then
 				box.x = x * TILE_SIZE
 				box.y = y * TILE_SIZE
 				local ans = rayBoxIntersection(x1, y1, x2-x1, y2-y1, box)

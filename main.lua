@@ -66,7 +66,7 @@ end
 initGame()
 
 
-song = A.newSource("media/music_001.mp3")
+song = A.newSource("media/music_001.mp3", "stream")
 song:setLooping(true)
 A.play(song)
 

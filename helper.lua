@@ -38,9 +38,9 @@ function collision(a, b, axis)
 	end
 
 	local dx = b.x + b.w - a.x
-	local dx2 = b.x - a.x - a.w
-
 	local dy = b.y + b.h - a.y
+
+	local dx2 = b.x - a.x - a.w
 	local dy2 = b.y - a.y - a.h
 
 	if axis == "x" then
